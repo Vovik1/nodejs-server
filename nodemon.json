@@ -1,0 +1,6 @@
+{
+    "env": {
+        "MONGO_DB_USER": "volodymyr",
+        "MONGO_DB_PASSWORD": "hardtoquess"    
+    }
+}
