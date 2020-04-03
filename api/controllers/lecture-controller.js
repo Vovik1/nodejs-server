@@ -32,14 +32,13 @@ async function create(req, res) {
 
 async function update(req, res) {
     try{
-      Lecture.updateOne({'title': req.body.title}, {$set:{
+     Lecture.updateOne({'title': req.body.title}, {$set:{
             title: req.body.title,
             videoUrl: req.body.videoUrl,
             description: req.body.description,
             messages: req.body.messages
-          }}, (err, data) => {
-            res.sendStatus(200);
-      });
+          }})
+         .then(response => res.status(200).json(response));
     }
     catch(err){
         res.json(err);
