@@ -30,4 +30,20 @@ async function create(req, res) {
     }
 };
 
-module.exports = {getAll,create};
+async function update(req, res) {
+    try{
+      Lecture.updateOne({'title': req.body.title}, {$set:{
+            title: req.body.title,
+            videoUrl: req.body.videoUrl,
+            description: req.body.description,
+            messages: req.body.messages
+          }}, (err, data) => {
+            res.sendStatus(200);
+      });
+    }
+    catch(err){
+        res.json(err);
+    }
+}
+
+module.exports = {getAll,create,update};
