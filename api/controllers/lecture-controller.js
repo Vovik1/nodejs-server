@@ -45,4 +45,19 @@ async function update(req, res) {
     }
 }
 
-module.exports = {getAll,create,update};
+async function remove(req, res){
+    try{
+        const response = await Lecture.remove({
+            title: req.body.title,
+            videoUrl: req.body.videoUrl,
+            description: req.body.description,
+            messages: req.body.messages
+        });
+        res.status(200).json(response);
+    }
+    catch(err){
+        res.json(err);
+    }
+}
+
+module.exports = {getAll,create,update,remove};
