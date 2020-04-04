@@ -2,11 +2,13 @@ const Lecture = require('../models/lecture-model');
 
 async function getAll(req, res) {
     try {
-        const docs = await Lecture.find({'title': 'Learning React'})
+        const docs = await Lecture.find({})
         const posts = docs.map(doc => {
             return {
                 title: doc.title, 
-                message: doc.message
+                videoUrl: doc.videoUrl,
+                description: doc.description,
+                message: doc.messages
             }
         })
         res.status(200).json(posts);

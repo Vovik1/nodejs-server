@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const passport = require('passport');
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@projectdb-16pvg.mongodb.net/test?retryWrites=true&w=majority`;
 
 const lectureRouter = require('./api/routes/lecture-router');
