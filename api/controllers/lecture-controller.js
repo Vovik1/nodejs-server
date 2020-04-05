@@ -1,4 +1,5 @@
-const Lecture = require('../models/lecture-model');
+const mongoose = require('mongoose');
+const Lecture = mongoose.model('Lecture');
 
 async function getAll(req, res) {
     try {
