@@ -2,6 +2,6 @@
     "env": {
         "MONGO_DB_USER": "volodymyr",
         "MONGO_DB_PASSWORD": "hardtoquess",
-        "JWT_KEY": "thisIsSecret"    
+        "JWT_KEY": "thisIsSecret"
     }
 }
