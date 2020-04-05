@@ -8,4 +8,3 @@ const lectureSchema = new mongoose.Schema({
 })
 
 const Lecture = mongoose.model('Lecture', lectureSchema);
-module.exports = Lecture;
