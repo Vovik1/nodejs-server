@@ -33,4 +33,35 @@ async function create(req, res) {
     }
 };
 
-module.exports = {getAll,create};
+async function update(req, res) {
+    try{
+        const response = await Lecture.updateOne({'_id': req.body.id}, {$set:{
+            title: req.body.title,
+            videoUrl: req.body.videoUrl,
+            description: req.body.description,
+            messages: req.body.messages
+        }});
+        res.status(200).json(response);
+    }
+    catch(err){
+        res.json(err);
+    }
+}
+
+async function remove(req, res){
+    try{
+        const response = await Lecture.remove({
+            _id: req.body.id,
+            title: req.body.title,
+            videoUrl: req.body.videoUrl,
+            description: req.body.description,
+            messages: req.body.messages
+        });
+        res.status(200).json(response);
+    }
+    catch(err){
+        res.json(err);
+    }
+}
+
+module.exports = {getAll,create,update,remove};

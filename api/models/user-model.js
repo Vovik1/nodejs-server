@@ -40,4 +40,5 @@ userSchema.methods.generateJwt = function(){
     }, process.env.JWT_KEY);
 };
 
+
 const User = mongoose.model('User', userSchema);
