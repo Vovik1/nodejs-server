@@ -8,9 +8,9 @@ router.get('/', authCheck, lectureController.getAll);
 router.post('/create', authCheck, lectureController.create);
 
 
-router.put('/update', lectureController.update);
+router.put('/update', authCheck, lectureController.update);
 
 
-router.delete('/delete', lectureController.remove);
+router.delete('/delete', authCheck, lectureController.remove);
 
 module.exports = router;
