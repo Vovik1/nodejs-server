@@ -1,10 +1,28 @@
 const express = require('express');
 const passport = require('passport');
 const router = new express.Router();
+const authCheck = require('../middleware/auth-check');
+
 const authController = require('../controllers/auth-controller');
+const lectureController = require('../controllers/lecture-controller');
+const awsController = require('../controllers/aws-controller');
 
+
+//lectures
+router
+    .route('/lecture')
+    .get(authCheck, lectureController.getAll)
+    .post(authCheck, lectureController.create)
+    .put(authCheck, lectureController.update)
+    .delete(authCheck, lectureController.remove);
+
+//aws-s3
+router
+    .route('/aws/upload-avatar')
+    .post(awsController.uploadAvatar)
+
+//auth
 router.post('/signup', authController.signUp);
-
 router.post('/signin', authController.signIn);
 
 router.get('/google',
@@ -26,6 +44,5 @@ router.get(`/facebook/callback`,
     (req, res)  => {
         res.json(req.user);
     });
-
 
 module.exports = router;

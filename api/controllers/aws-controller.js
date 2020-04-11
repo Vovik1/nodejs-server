@@ -1,16 +1,21 @@
 const { v4: uuidv4 } = require('uuid');
+const {awsKeyId, awsAccess, awsBucket} = require('../config/config')
 const path = require( 'path' );
 const AWS = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 
-const s3 = new AWS.S3();
+
+const s3 = new AWS.S3({
+  accessKeyId: awsKeyId,
+  secretAccessKey: awsAccess,
+});
 
 
 const profileImgUpload = multer({
   storage: multerS3({
    s3: s3,
-   bucket: 'bucket-u-vovika-for-avatars',
+   bucket: awsBucket,
    acl: 'public-read',
    key: function (req, file, cb) {
     cb(null, path.basename( file.originalname, path.extname( file.originalname ) ) + '-' + Date.now() + path.extname( file.originalname ) )
@@ -37,7 +42,6 @@ const profileImgUpload = multer({
  }
 
  const uploadAvatar = (req,res) =>{ 
-   console.log(uuidv4())
    profileImgUpload( req, res, ( error ) => {
   // console.log( 'requestOkokok', req.file );
   // console.log( 'error', error );
@@ -64,19 +68,5 @@ res.json( {
  });
 }
 
- 
-
-// function generatePresignedUrl(req,res) {
-//   const params = {
-//     Bucket: 'bucket-u-vovika-for-avatars',
-//     Key: 'photo.png',
-//     ACL: 'public-read',
-//     Expires: 240
-//   }
-
-//   var url = s3.getSignedUrl('putObject', params) 
-//   console.log('The Url is ', url);
-//   res.status(200).json({url});
-// }
 
 module.exports = {uploadAvatar};

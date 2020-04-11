@@ -2,6 +2,8 @@
     "env": {
         "MONGO_DB_USER": "volodymyr",
         "MONGO_DB_PASSWORD": "hardtoquess",
+        "MONGO_DB_HOST":"projectdb-16pvg.mongodb.net/test?retryWrites=true&w=majority",
         "JWT_KEY": "thisIsSecret"
+       
     }
 }
