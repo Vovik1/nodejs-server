@@ -3,7 +3,7 @@ const router = new express.Router();
 const authCheck = require('../middleware/auth-check');
 const lectureController = require('../controllers/lecture-controller');
 
-router.get('/', authCheck, lectureController.getAll);
+router.get('/', lectureController.getAll);
 
 router.post('/create', authCheck, lectureController.create);
 
