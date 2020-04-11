@@ -1,6 +1,5 @@
-const {mongoDbUser, mongoDbPassword, mongoHost} = require('../config/config')
 const mongoose = require('mongoose');
-const dbURL = `mongodb+srv://${mongoDbUser}:${mongoDbPassword}@${mongoHost}`;
+const dbURL = `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@${process.env.MONGO_DB_HOST}`;
 
 
 const connect = () => {
