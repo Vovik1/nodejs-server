@@ -11,7 +11,7 @@ const awsController = require('../controllers/aws-controller');
 //lectures
 router
     .route('/lecture')
-    .get(authCheck, lectureController.getAll)
+    .get(lectureController.getAll)
     .post(authCheck, lectureController.create)
     .put(authCheck, lectureController.update)
     .delete(authCheck, lectureController.remove);
