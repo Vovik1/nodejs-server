@@ -1,14 +1,12 @@
 # NodeJS-Server
 
-## Usefull URLs
 
 ### SignUp user with POST request
-
 ```
 https://glacial-chamber-22605.herokuapp.com/api/signup
 ```
-### SignIn user with POST request
 
+### SignIn user with POST request
 ```
 https://glacial-chamber-22605.herokuapp.com/api/signin
 ```
@@ -54,3 +52,4 @@ postData('https://glacial-chamber-22605.herokuapp.com/api/lecture',
     console.log(data); // JSON data parsed by `response.json()` call
   });
 ```
+

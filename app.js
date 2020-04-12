@@ -14,12 +14,13 @@ app.use(morgan('dev'));
 
 app.use(passport.initialize());
 
+
 app.use('/', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Headers', 'Origin, access-token, X-Requested-With, Content-Type, Accept, Authorization');
   next();
 });
 
-app.use('/api', apiRouter);
+app.use('/api', apiRouter); 
 
 module.exports = app;

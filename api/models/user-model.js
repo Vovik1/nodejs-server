@@ -12,6 +12,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        required: true
+    },
     hash:String,
     salt: String
 });
@@ -40,5 +44,13 @@ userSchema.methods.generateJwt = function(){
     }, process.env.JWT_KEY);
 };
 
+userSchema.methods.isAdmin = async function(res){
+    try{
+        const user = await User.findOne({email: this.email});
+        res.json({role: user.role});
+    }catch (err) {
+        res.json(err);
+    }
+};
 
 const User = mongoose.model('User', userSchema);
