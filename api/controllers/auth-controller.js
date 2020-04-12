@@ -10,6 +10,7 @@ async function signUp(req, res) {
         const user = new User();
         user.email = req.body.email;
         user.name = req.body.name;
+        user.role = 'student';
         user.setPassword(req.body.password); 
         const response = await user.save()
         res.status(201).json({message: 'user created', response});
