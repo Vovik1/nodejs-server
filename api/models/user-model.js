@@ -44,10 +44,13 @@ userSchema.methods.generateJwt = function(){
     }, process.env.JWT_KEY);
 };
 
-userSchema.methods.isAdmin = async function(){
-    const user = await User.findOne({email: this.email});
-    console.log(user);
-    return user;
+userSchema.methods.isAdmin = async function(res){
+    try{
+        const user = await User.findOne({email: this.email});
+        res.json({role: user.role});
+    }catch (err) {
+        res.json(err);
+    }
 };
 
 const User = mongoose.model('User', userSchema);
