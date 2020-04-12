@@ -22,7 +22,8 @@ https://glacial-chamber-22605.herokuapp.com/api/lecture
 ```
 https://glacial-chamber-22605.herokuapp.com/api/lecture
 
-example: async function postData(url = '', data = {}) {
+example: 
+async function postData(url = '', data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -47,7 +48,7 @@ postData('https://glacial-chamber-22605.herokuapp.com/api/lecture',
         videoUrl: "rtsp://leart-react.com",
 	    description: "Best way to learn is watch videos",
 	    messages: "Some text here"
-        }
+    }
     )
   .then((data) => {
     console.log(data); // JSON data parsed by `response.json()` call
