@@ -29,20 +29,15 @@ userSchema.methods.setPassword = function (password){
 userSchema.methods.generateJwt = function(){
     const expiry = new Date();
     expiry.setDate(expiry.getDate() + 7);
-
-    let isAdmin = false;
-
-    const user = User.findOne({email: this.email});
-    if(user.role == `admin`){
-        isAdmin = true;
-    }
     return jwt.sign({
         _id: this._id,
         email: this.email,
         name: this.name,
-        isAdmin: isAdmin,
+        isAdmin: this.isAdmin,
         exp:parseInt(expiry.getTime()/1000,10)
     }, process.env.JWT_KEY);
+
+   // return jwt.decode(token);
 
 };
 
