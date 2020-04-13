@@ -48,17 +48,4 @@ userSchema.methods.validatePassword = function(password){
     return this.hash === hash;
 }
 
-userSchema.methods.isAdmin = async function(email){
-    try{
-        const user = await User.findOne({email: email});
-        if(user.role != 'admin'){
-            return false;
-        }else{
-            return true;
-        }
-    }catch (err) {
-        return false;
-    }
-};
-
 const User = mongoose.model('User', userSchema);
