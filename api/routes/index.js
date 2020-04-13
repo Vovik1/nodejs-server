@@ -2,8 +2,6 @@ const express = require('express');
 const passport = require('passport');
 const router = new express.Router();
 const authCheck = require('../middleware/auth-check');
-const mongoose = require('mongoose');
-const User = mongoose.model('User');
 
 const authController = require('../controllers/auth-controller');
 const lectureController = require('../controllers/lecture-controller');
@@ -27,7 +25,7 @@ router
 router.post('/signup', authController.signUp);
 router.post('/signin', authController.signIn);
 
-router.get('/signin/google',
+router.get('/google',
     passport.authenticate('google', {scope: ['profile', 'email']}));
 
 router.get('/google/callback',
@@ -36,7 +34,7 @@ router.get('/google/callback',
         res.json(req.user);
     });
 
-router.get('/signin/facebook',
+router.get('/facebook',
     passport.authenticate('facebook', { scope : ['email'] }));
 
 router.get(`/facebook/callback`,
@@ -46,11 +44,5 @@ router.get(`/facebook/callback`,
     (req, res)  => {
         res.json(req.user);
     });
-
-router.post(`/isAdmin`, (req, res) => {
-    const user = new User();
-    user.email = req.body.email;
-    user.isAdmin(res);
-})
 
 module.exports = router;

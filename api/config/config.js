@@ -9,6 +9,7 @@ module.exports = {
     awsKeyId: process.env.AWS_ACCESS_KEY_ID,
     awsAccess: process.env.AWS_SECRET_ACCESS_KEY,
     awsBucket: process.env.AWS_BUCKET,
+    
     facebook_client_id: process.env.FACEBOOK_CLIENT_ID,
     facebook_client_secret: process.env.FACEBOOK_CLIENT_SECRET,
     facebook_callback_url: process.env.FACEBOOK_CALLBACK_URL,
