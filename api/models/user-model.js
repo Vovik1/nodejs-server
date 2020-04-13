@@ -47,7 +47,11 @@ userSchema.methods.generateJwt = function(){
 userSchema.methods.isAdmin = async function(res){
     try{
         const user = await User.findOne({email: this.email});
-        res.json({role: user.role});
+        if(user.role != 'admin'){
+            res.json({isAdmin: false});
+        }else{
+            res.json({isAdmin: true});
+        }
     }catch (err) {
         res.json(err);
     }
