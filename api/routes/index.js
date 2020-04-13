@@ -48,10 +48,4 @@ router.get(`/facebook/callback`,
         res.json(req.user);
     });
 
-router.post(`/isAdmin`, (req, res) => {
-	const user = new User();
-	user.email = req.body.email;
-	user.isAdmin(res);
-})
-
 module.exports = router;
