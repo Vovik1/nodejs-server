@@ -3,7 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const mongoose = require('mongoose');
-const authCredentials = require(`./credentials`);
+const config = require('./config')
 const User = mongoose.model('User');
 
 
@@ -37,9 +37,9 @@ passport.use(new LocalStrategy({
 ));
 
 passport.use(new FacebookStrategy({
-      clientID: authCredentials.facebookAuth.clientID,
-      clientSecret: authCredentials.facebookAuth.clientSecret,
-      callbackURL: authCredentials.facebookAuth.callbackURL,
+      clientID: config.facebook_client_id,
+      clientSecret: config.facebook_client_secret,
+      callbackURL: config.facebook_callback_url,
       profileFields: ['email','id', 'first_name', 'gender', 'last_name', 'picture']
     },
     (accessToken, refreshToken, profile, done) => {
@@ -48,7 +48,7 @@ passport.use(new FacebookStrategy({
         name: profile._json.given_name,
         surName: profile._json.family_name
       };
-        User.findOne({'email': data.email}, (err, user)=> {
+        User.findOne({'email': data.email}, (err, user) => {
             if(err){ return done(err);}
             if(user){
                 const token = user.generateJwt();
@@ -57,6 +57,7 @@ passport.use(new FacebookStrategy({
                 const user = new User();
                 user.email = data.email;
                 user.name = data.name;
+                user.role = 'student';
                 user.save()
                     .then(response => done(null, response))
                     .catch(err => done(null, err));
@@ -66,9 +67,9 @@ passport.use(new FacebookStrategy({
 ));
 
 passport.use(new GoogleStrategy({
-      clientID: authCredentials.googleAuth.clientID,
-      clientSecret: authCredentials.googleAuth.clientSecret,
-      callbackURL: authCredentials.googleAuth.callbackURL
+      clientID: config.google_client_id,
+      clientSecret: config.google_client_secret,
+      callbackURL: config.google_callback_url
     },
     (accessToken, refreshToken, profile, done) => {
       const data = {
@@ -86,6 +87,7 @@ passport.use(new GoogleStrategy({
               const user = new User();
               user.email = data.email;
               user.name = data.name;
+              user.role = 'student';
                user.save()
                   .then(response => done(null, response))
                   .catch(err => done(null, err));
