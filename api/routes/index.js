@@ -22,7 +22,7 @@ router
 //aws-s3
 router
     .route('/aws/upload-avatar')
-    .post(awsController.uploadAvatar)
+    .post(authCheck, awsController.uploadAvatar);
 
 //auth
 router.post('/signup', authController.signUp);

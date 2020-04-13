@@ -6,10 +6,16 @@ async function getAll(req, res) {
         const docs = await Lecture.find({})
         const posts = docs.map(doc => {
             return {
-                title: doc.title, 
+                imgUrl: doc.imgUrl,
+                title: doc.title,
+                author: doc.author,
+                defaultRating: doc.defaultRating,
+                oldPrice: doc.oldPrice,
+                newPrice: doc.newPrice, 
                 videoUrl: doc.videoUrl,
                 description: doc.description,
                 message: doc.messages
+                
             }
         })
         res.status(200).json(posts);
