@@ -18,7 +18,8 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     hash:String,
-    salt: String
+    salt: String,
+    imageUrl:String
 });
 
 userSchema.methods.setPassword = function (password){
