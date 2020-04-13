@@ -1,6 +1,7 @@
+.idea
+.env
 node_modules
 
 yarn.lock
 package-lock.json
-index.js
-delete_later.js
+

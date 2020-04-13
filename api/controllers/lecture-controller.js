@@ -1,4 +1,5 @@
-const Lecture = require('../models/lecture-model');
+const mongoose = require('mongoose');
+const Lecture = mongoose.model('Lecture');
 
 async function getAll(req, res) {
     try {
@@ -34,7 +35,7 @@ async function create(req, res) {
 
 async function update(req, res) {
     try{
-        const response = await Lecture.updateOne({'title': req.body.title}, {$set:{
+        const response = await Lecture.updateOne({'_id': req.body.id}, {$set:{
             title: req.body.title,
             videoUrl: req.body.videoUrl,
             description: req.body.description,
@@ -50,6 +51,7 @@ async function update(req, res) {
 async function remove(req, res){
     try{
         const response = await Lecture.remove({
+            _id: req.body.id,
             title: req.body.title,
             videoUrl: req.body.videoUrl,
             description: req.body.description,
