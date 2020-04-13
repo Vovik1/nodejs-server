@@ -3,7 +3,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const mongoose = require('mongoose');
-const config = require('./config')
 const User = mongoose.model('User');
 
 
@@ -37,9 +36,9 @@ passport.use(new LocalStrategy({
 ));
 
 passport.use(new FacebookStrategy({
-      clientID: config.facebook_client_id,
-      clientSecret: config.facebook_client_secret,
-      callbackURL: config.facebook_callback_url,
+      clientID: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+      callbackURL: process.env.FACEBOOK_CALLBACK_URL,
       profileFields: ['email','id', 'first_name', 'gender', 'last_name', 'picture']
     },
     (accessToken, refreshToken, profile, done) => {
@@ -67,9 +66,9 @@ passport.use(new FacebookStrategy({
 ));
 
 passport.use(new GoogleStrategy({
-      clientID: config.google_client_id,
-      clientSecret: config.google_client_secret,
-      callbackURL: config.google_callback_url
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.GOOGLE_CALLBACK_URL
     },
     (accessToken, refreshToken, profile, done) => {
       const data = {
