@@ -7,6 +7,9 @@ const authController = require('../controllers/auth-controller');
 const lectureController = require('../controllers/lecture-controller');
 const awsController = require('../controllers/aws-controller');
 
+const mongoose = require('mongoose');
+const User = mongoose.model('User');
+
 
 //lectures
 router
@@ -44,5 +47,11 @@ router.get(`/facebook/callback`,
     (req, res)  => {
         res.json(req.user);
     });
+
+router.post(`/isAdmin`, (req, res) => {
+	const user = new User();
+	user.email = req.body.email;
+	user.isAdmin(res);
+})
 
 module.exports = router;
