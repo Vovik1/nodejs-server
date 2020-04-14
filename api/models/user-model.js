@@ -37,8 +37,6 @@ userSchema.methods.generateJwt = function(){
         exp:parseInt(expiry.getTime()/1000,10)
     }, process.env.JWT_KEY);
 
-   // return jwt.decode(token);
-
 };
 
 userSchema.methods.validatePassword = function(password){

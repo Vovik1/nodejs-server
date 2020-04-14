@@ -55,12 +55,21 @@ passport.use(new FacebookStrategy({
                     .then(req => {
                         user.isAdmin = req;
                         const token = user.generateJwt();
-                        done(null, token);
+                        done(null, {
+                            token,
+                            name: user.name,
+                            email: user.email,
+                            isAdmin: user.isAdmin
+                        });
                     })
                     .catch(err => {
                         user.isAdmin = false;
                         const token = user.generateJwt();
-                        done(null, token);
+                        done(null, {token,
+                            name: user.name,
+                            email: user.email,
+                            isAdmin: user.isAdmin
+                        });
                     })
             }else{
                 const user = new User();
@@ -94,12 +103,22 @@ passport.use(new GoogleStrategy({
                   .then(req => {
                       user.isAdmin = req;
                       const token = user.generateJwt();
-                      done(null, token);
+                      done(null, {
+                          token,
+                          name: user.name,
+                          email: user.email,
+                          isAdmin: user.isAdmin
+                      });
                   })
                   .catch(err => {
                       user.isAdmin = false;
                       const token = user.generateJwt();
-                      done(null, token);
+                      done(null, {
+                          token,
+                          name: user.name,
+                          email: user.email,
+                          isAdmin: user.isAdmin
+                      });
                   })
           }else{
               const user = new User();

@@ -30,12 +30,22 @@ const signIn = (req, res) => {
                 .then(req => {
                     user.isAdmin = req;
                     token = user.generateJwt();
-                    res.status(200).json({token});
+                    res.status(200).json({
+                        token,
+                        name: user.name,
+                        email: user.email,
+                        isAdmin: user.isAdmin
+                    });
                 })
                 .catch(err => {
                     user.isAdmin = false;
                     token = user.generateJwt();
-                    res.status(200).json({token});
+                    res.status(200).json({
+                        token,
+                        name: user.name,
+                        email: user.email,
+                        isAdmin: user.isAdmin
+                    });
                 })
         } else {
             res.status(401)
