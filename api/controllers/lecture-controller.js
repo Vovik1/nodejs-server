@@ -13,7 +13,8 @@ async function getAll(req, res) {
                 oldPrice: doc.oldPrice,
                 newPrice: doc.newPrice, 
                 videoUrl: doc.videoUrl,
-                description: doc.description
+                description: doc.description,
+                messages: doc.messages
             }
         })
         res.status(200).json(lectures);
