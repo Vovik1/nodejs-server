@@ -10,6 +10,7 @@ const messagesController = require('../controllers/messages-controller');
 const editeProfileController = require('../controllers/edit-profile-controller');
 const categoryController = require('../controllers/category-controller');
 
+
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
@@ -68,7 +69,7 @@ router.get('/google',
 router.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res)  => {
-        res.setHeader('Authorization', req.user.token);
+        res.setHeader('Access-Token', req.user.token);
         res.json({
             "name": req.user.name,
             "email": req.user.email,
@@ -84,7 +85,7 @@ router.get(`/facebook/callback`,
         failureRedirect: '/'
     }),
     (req, res)  => {
-        res.setHeader('Authorization', req.user.token);
+        res.setHeader('Access-Token', req.user.token);
         res.json({
             "name": req.user.name,
             "email": req.user.email,
@@ -95,6 +96,6 @@ router.get(`/facebook/callback`,
 
 // profile updating
 
-//router.put('/editProfile', editeProfileController.updateProfile);
+router.put('/editProfile', editProfileController.updateProfile);
 
 module.exports = router;
