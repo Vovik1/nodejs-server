@@ -73,7 +73,7 @@ router.get(`/facebook/callback`,
         failureRedirect: '/'
     }),
     (req, res)  => {
-        res.setHeader('Authorization', req.user.token);
+        //res.setHeader('Authorization', req.user.token);
         res.json({
             "name": req.user.name,
             "email": req.user.email,
