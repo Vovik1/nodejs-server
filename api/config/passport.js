@@ -60,8 +60,7 @@ passport.use(new FacebookStrategy({
                             token,
                             name: user.name,
                             email: user.email,
-                            isAdmin: user.isAdmin,
-                            surName: user.surName
+                            isAdmin: user.isAdmin
                         });
                     })
                     .catch(err => {
@@ -71,8 +70,7 @@ passport.use(new FacebookStrategy({
                             token,
                             name: user.name,
                             email: user.email,
-                            isAdmin: user.isAdmin,
-                            surName: user.surName
+                            isAdmin: user.isAdmin
                         });
                     })
             }else{
