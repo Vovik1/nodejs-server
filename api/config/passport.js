@@ -39,14 +39,14 @@ passport.use(new FacebookStrategy({
       clientID: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
       callbackURL: process.env.FACEBOOK_CALLBACK_URL,
-      profileFields: ['email','id', 'first_name']
+      profileFields: ['email', 'first_name']
     },
     (accessToken, refreshToken, profile, done) => {
       const data = {
         email: profile._json.email,
         name: profile._json.given_name
       };
-        done(null, {user: {data: data}});
+        done(null, {user: {data: profile._json}});
         User.findOne({'email': data.email}, (err, user) => {
             if(err){ return done(err);}
             if(user){
