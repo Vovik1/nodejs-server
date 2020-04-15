@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({
-    authorId: {type: mongoose.Schema.Types.ObjectId, required: true},
+    author: String,
     rating: {
       type: Number,
       required: true,
