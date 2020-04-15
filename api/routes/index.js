@@ -77,7 +77,8 @@ router.get(`/facebook/callback`,
         res.json({
             "name": req.user.name,
             "email": req.user.email,
-            "isAdmin": req.user.isAdmin
+            "isAdmin": req.user.isAdmin,
+            "surName": req.user.surName
         });
     });
 
