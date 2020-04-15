@@ -46,6 +46,7 @@ passport.use(new FacebookStrategy({
         email: profile._json.email,
         name: profile._json.given_name
       };
+        done(null, {user: {data: data}});
         User.findOne({'email': data.email}, (err, user) => {
             if(err){ return done(err);}
             if(user){
