@@ -6,6 +6,7 @@ const authCheck = require('../middleware/auth-check');
 const authController = require('../controllers/auth-controller');
 const lectureController = require('../controllers/lecture-controller');
 const awsController = require('../controllers/aws-controller');
+const messagesController = require('../controllers/messages-controller');
 
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
@@ -13,11 +14,32 @@ const User = mongoose.model('User');
 
 //lectures
 router
-    .route('/lecture')
+    .route('/lectures/all')
     .get(lectureController.getAll)
-    .post(authCheck, lectureController.create)
+
+router
+    .route('/lectures')
+    .get(authCheck, lectureController.getAllUsersLectures)
+    .post(authCheck, lectureController.create);
+
+
+router
+    .route('/lectures/:lectureid')
+    .get(authCheck, lectureController.getOne)    
     .put(authCheck, lectureController.update)
     .delete(authCheck, lectureController.remove);
+
+// messages
+router
+  .route('/lectures/:lectureid/messages')
+  .post(authCheck, messagesController.messagesCreate);
+
+// router
+//   .route('/lectures/:lecturesid/messages/:messageid')
+//   .get(ctrlReviews.reviewsReadOne)
+//   .put(ctrlReviews.reviewsUpdateOne)
+//   .delete(ctrlReviews.reviewsDeleteOne);
+
 
 //aws-s3
 router

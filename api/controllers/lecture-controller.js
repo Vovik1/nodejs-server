@@ -3,8 +3,8 @@ const Lecture = mongoose.model('Lecture');
 
 async function getAll(req, res) {
     try {
-        const docs = await Lecture.find({})
-        const posts = docs.map(doc => {
+        const docs = await Lecture.find()
+        const lectures = docs.map(doc => {
             return {
                 imgUrl: doc.imgUrl,
                 title: doc.title,
@@ -13,16 +13,59 @@ async function getAll(req, res) {
                 oldPrice: doc.oldPrice,
                 newPrice: doc.newPrice, 
                 videoUrl: doc.videoUrl,
-                description: doc.description,
-                message: doc.messages
-                
+                description: doc.description
             }
         })
-        res.status(200).json(posts);
+        res.status(200).json(lectures);
     } catch(err) {
         res.json(err);
     }
 };
+
+async function getAllUsersLectures(req, res) {
+    try {
+        const docs = await Lecture.find({'userId': req.userData._id})
+        const lectures = docs.map(doc => {
+            return {
+                id: doc._id,
+                imgUrl: doc.imgUrl,
+                title: doc.title,
+                author: doc.author,
+                defaultRating: doc.defaultRating,
+                oldPrice: doc.oldPrice,
+                newPrice: doc.newPrice, 
+                videoUrl: doc.videoUrl,
+                description: doc.description
+            }
+        })
+        res.status(200).json(lectures);
+    } catch(err) {
+        res.json(err);
+    }
+};
+
+async function getOne(req,res) {
+    try {
+        const doc = await Lecture.findById(req.params.lectureid)
+        if (!doc) return res.sendStatus(404);
+        const post = {
+            id: doc._id,
+            imgUrl: doc.imgUrl,
+            title: doc.title,
+            author: doc.author,
+            defaultRating: doc.defaultRating,
+            oldPrice: doc.oldPrice,
+            newPrice: doc.newPrice, 
+            videoUrl: doc.videoUrl,
+            description: doc.description,
+            messages:doc.messages
+        }
+        res.status(200).json(post);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+};
+
 
 async function create(req, res) {
     try {
@@ -70,4 +113,4 @@ async function remove(req, res){
     }
 }
 
-module.exports = {getAll,create,update,remove};
+module.exports = {getAll, getAllUsersLectures, getOne, create, update, remove};

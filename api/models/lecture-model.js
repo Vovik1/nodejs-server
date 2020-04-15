@@ -1,8 +1,24 @@
 const mongoose = require('mongoose');
 
+const messageSchema = new mongoose.Schema({
+    authorId: {type: mongoose.Schema.Types.ObjectId, required: true},
+    rating: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 5
+    },
+    messageText: String,
+    createdOn: {
+      type: Date,
+      'default': Date.now
+    }
+  });
+
+
 const lectureSchema = new mongoose.Schema({
     imgUrl: String,
-    author:String,
+    author: String,
     title: {type: String, required: true},
     author: String,
     defaultRating:String,
@@ -10,7 +26,8 @@ const lectureSchema = new mongoose.Schema({
     newPrice: String,
     videoUrl: String,
     description: String,
-    messages:String
+    messages: [messageSchema],
+    userId: {type: mongoose.Schema.Types.ObjectId, required: true},
 })
 
-const Lecture = mongoose.model('Lecture', lectureSchema);
+mongoose.model('Lecture', lectureSchema);
