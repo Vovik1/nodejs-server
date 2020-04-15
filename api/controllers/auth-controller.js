@@ -12,7 +12,8 @@ async function signUp(req, res) {
         user.email = req.body.email;
         user.name = req.body.name;
         user.role = 'student';
-        user.setPassword(req.body.password); 
+        user.surName = '';
+        user.setPassword(req.body.password);
         const response = await user.save()
         res.status(201).json({message: 'user created', response});
     } catch(err) {
@@ -45,6 +46,7 @@ const signIn = (req, res) => {
                         name: user.name,
                         email: user.email,
                         isAdmin: user.isAdmin
+                        surName: user.surName
                     });
                 })
         } else {
