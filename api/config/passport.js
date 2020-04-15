@@ -48,7 +48,7 @@ passport.use(new FacebookStrategy({
         name: profile._json.first_name,
         surName: profile._json.last_name
       };
-        done(null, {user: {user: data}});
+        //done(null, {user: {user: data}});
         User.findOne({'email': data.email}, (err, user) => {
             if(err){ return done(err);}
             if(user){
@@ -60,7 +60,8 @@ passport.use(new FacebookStrategy({
                             token,
                             name: user.name,
                             email: user.email,
-                            isAdmin: user.isAdmin
+                            isAdmin: user.isAdmin,
+                            surName: user.surName
                         });
                     })
                     .catch(err => {
@@ -70,7 +71,8 @@ passport.use(new FacebookStrategy({
                             token,
                             name: user.name,
                             email: user.email,
-                            isAdmin: user.isAdmin
+                            isAdmin: user.isAdmin,
+                            surName: user.surName
                         });
                     })
             }else{
@@ -78,6 +80,7 @@ passport.use(new FacebookStrategy({
                 user.email = data.email;
                 user.name = data.name;
                 user.role = 'student';
+                user.surName = data.surName;
                 user.save()
                     .then(response => done(null, response))
                     .catch(err => done(null, err));
