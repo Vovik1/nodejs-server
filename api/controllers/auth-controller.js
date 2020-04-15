@@ -1,6 +1,7 @@
  const passport = require('passport');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+ const check_admin = require(`../middleware/isAdmin`)
 
 async function signUp(req, res) {
     if (!req.body.email || !req.body.password) return res.status(422).json({message: 'email and password are required'});
@@ -25,8 +26,27 @@ const signIn = (req, res) => {
         let token;
         if (err) return res.status(404).json(err);
         if (user) {
-            token = user.generateJwt();
-            res.status(200).json({token});
+            check_admin(user.email)
+                .then(req => {
+                    user.isAdmin = req;
+                    token = user.generateJwt();
+                    res.status(200).json({
+                        token,
+                        name: user.name,
+                        email: user.email,
+                        isAdmin: user.isAdmin
+                    });
+                })
+                .catch(err => {
+                    user.isAdmin = false;
+                    token = user.generateJwt();
+                    res.json({
+                        token,
+                        name: user.name,
+                        email: user.email,
+                        isAdmin: user.isAdmin
+                    });
+                })
         } else {
             res.status(401)
             .json(info);

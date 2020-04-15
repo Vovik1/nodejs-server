@@ -4,6 +4,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const isAdmin = require('../middleware/isAdmin');
 
 
 passport.serializeUser((user, done) => {
@@ -50,8 +51,27 @@ passport.use(new FacebookStrategy({
         User.findOne({'email': data.email}, (err, user) => {
             if(err){ return done(err);}
             if(user){
-                const token = user.generateJwt();
-                done(null, token);
+                isAdmin(user.email)
+                    .then(req => {
+                        user.isAdmin = req;
+                        const token = user.generateJwt();
+                        done(null, {
+                            token,
+                            name: user.name,
+                            email: user.email,
+                            isAdmin: user.isAdmin
+                        });
+                    })
+                    .catch(err => {
+                        user.isAdmin = false;
+                        const token = user.generateJwt();
+                        done(null, {
+                            token,
+                            name: user.name,
+                            email: user.email,
+                            isAdmin: user.isAdmin
+                        });
+                    })
             }else{
                 const user = new User();
                 user.email = data.email;
@@ -80,8 +100,27 @@ passport.use(new GoogleStrategy({
        User.findOne({'email': data.email}, (err, user)=> {
           if(err){ return done(err);}
           if(user){
-            const token = user.generateJwt();
-            done(null, token);
+              isAdmin(user.email)
+                  .then(req => {
+                      user.isAdmin = req;
+                      const token = user.generateJwt();
+                      done(null, {
+                          token,
+                          name: user.name,
+                          email: user.email,
+                          isAdmin: user.isAdmin
+                      });
+                  })
+                  .catch(err => {
+                      user.isAdmin = false;
+                      const token = user.generateJwt();
+                      done(null, {
+                          token,
+                          name: user.name,
+                          email: user.email,
+                          isAdmin: user.isAdmin
+                      });
+                  })
           }else{
               const user = new User();
               user.email = data.email;
