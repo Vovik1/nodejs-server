@@ -40,7 +40,6 @@ function checkFileType( file, cb ){
 const uploadAvatar = (req,res) => {
   profileImgUpload(req,res, async error => {
     if(error) {
-      console.log( 'errors', error );
       return res.status(422).json( { error: error } );
     }
     if( req.file === undefined ){

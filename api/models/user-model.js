@@ -28,34 +28,43 @@ userSchema.methods.setPassword = function (password){
     .toString('hex');
 };
 
-userSchema.methods.validatePassword = function(password){
-    const hash = crypto
-    .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
-    .toString('hex');
-    return this.hash === hash;
-}
-
 userSchema.methods.generateJwt = function(){
     const expiry = new Date();
     expiry.setDate(expiry.getDate() + 7);
+
+    let isAdmin = false;
+
+    const user = User.findOne({email: this.email});
+    if(user.role == `admin`){
+        isAdmin = true;
+    }
     return jwt.sign({
         _id: this._id,
         email: this.email,
         name: this.name,
+        isAdmin: isAdmin,
         exp:parseInt(expiry.getTime()/1000,10)
     }, process.env.JWT_KEY);
+
 };
 
-userSchema.methods.isAdmin = async function(res){
+userSchema.methods.validatePassword = function(password){
+    const hash = crypto
+        .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
+        .toString('hex');
+    return this.hash === hash;
+}
+
+userSchema.methods.isAdmin = async function(email){
     try{
-        const user = await User.findOne({email: this.email});
+        const user = await User.findOne({email: email});
         if(user.role != 'admin'){
-            res.json({isAdmin: false});
+            return false;
         }else{
-            res.json({isAdmin: true});
+            return true;
         }
     }catch (err) {
-        res.json(err);
+        return false;
     }
 };
 
