@@ -8,6 +8,7 @@ const lectureController = require('../controllers/lecture-controller');
 const awsController = require('../controllers/aws-controller');
 const messagesController = require('../controllers/messages-controller');
 const editeProfileController = require('../controllers/edit-profile-controller');
+const categoryController = require('../controllers/category-controller');
 
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
@@ -17,6 +18,10 @@ const User = mongoose.model('User');
 router
     .route('/lectures/all')
     .get(lectureController.getAll)
+
+router
+    .route('/lectures/:categoryid')
+    .get(lectureController.getLecturesByCategory);
 
 router
     .route('/lectures')
@@ -40,6 +45,12 @@ router
 //   .get(ctrlReviews.reviewsReadOne)
 //   .put(ctrlReviews.reviewsUpdateOne)
 //   .delete(ctrlReviews.reviewsDeleteOne);
+
+// categories
+router
+    .route('/categories/all')
+    .get(categoryController.getAllCategories);
+
 
 
 //aws-s3

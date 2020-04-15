@@ -28,6 +28,7 @@ const lectureSchema = new mongoose.Schema({
     description: String,
     messages: [messageSchema],
     userId: {type: mongoose.Schema.Types.ObjectId, required: true},
+    categoryId: {type: mongoose.Schema.Types.ObjectId, required: true}
 })
 
 mongoose.model('Lecture', lectureSchema);
