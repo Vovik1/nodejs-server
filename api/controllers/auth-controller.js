@@ -12,7 +12,8 @@ async function signUp(req, res) {
         user.email = req.body.email;
         user.name = req.body.name;
         user.role = 'student';
-        user.setPassword(req.body.password); 
+        user.surName = '';
+        user.setPassword(req.body.password);
         const response = await user.save()
         res.status(201).json({message: 'user created', response});
     } catch(err) {
@@ -30,8 +31,8 @@ const signIn = (req, res) => {
                 .then(req => {
                     user.isAdmin = req;
                     token = user.generateJwt();
+                    res.setHeader('Authorization', token);
                     res.status(200).json({
-                        token,
                         name: user.name,
                         email: user.email,
                         isAdmin: user.isAdmin
@@ -40,8 +41,8 @@ const signIn = (req, res) => {
                 .catch(err => {
                     user.isAdmin = false;
                     token = user.generateJwt();
+                    res.setHeader('Authorization', token);
                     res.json({
-                        token,
                         name: user.name,
                         email: user.email,
                         isAdmin: user.isAdmin

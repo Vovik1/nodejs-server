@@ -7,6 +7,7 @@ const authController = require('../controllers/auth-controller');
 const lectureController = require('../controllers/lecture-controller');
 const awsController = require('../controllers/aws-controller');
 const messagesController = require('../controllers/messages-controller');
+const editeProfileController = require('../controllers/edit-profile-controller');
 
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
@@ -56,7 +57,12 @@ router.get('/google',
 router.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res)  => {
-        res.json(req.user);
+        res.setHeader('Authorization', req.user.token);
+        res.json({
+            "name": req.user.name,
+            "email": req.user.email,
+            "isAdmin": req.user.isAdmin
+        });
     });
 
 router.get('/facebook',
@@ -67,7 +73,17 @@ router.get(`/facebook/callback`,
         failureRedirect: '/'
     }),
     (req, res)  => {
-        res.json(req.user);
+        //res.setHeader('Authorization', req.user.token);
+        res.json({
+            "name": req.user.name,
+            "email": req.user.email,
+            "isAdmin": req.user.isAdmin,
+            "surName": req.user.surName
+        });
     });
+
+// profile updating
+
+//router.put('/editProfile', editeProfileController.updateProfile);
 
 module.exports = router;

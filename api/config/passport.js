@@ -40,14 +40,15 @@ passport.use(new FacebookStrategy({
       clientID: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
       callbackURL: process.env.FACEBOOK_CALLBACK_URL,
-      profileFields: ['email', 'first_name']
+      profileFields: ['email', 'first_name', 'last_name']
     },
     (accessToken, refreshToken, profile, done) => {
       const data = {
         email: profile._json.email,
-        name: profile._json.first_name
+        name: profile._json.first_name,
+        surName: profile._json.last_name
       };
-        //done(null, {user: {data: profile._json}});
+        //done(null, {user: {user: data}});
         User.findOne({'email': data.email}, (err, user) => {
             if(err){ return done(err);}
             if(user){
@@ -59,7 +60,8 @@ passport.use(new FacebookStrategy({
                             token,
                             name: user.name,
                             email: user.email,
-                            isAdmin: user.isAdmin
+                            isAdmin: user.isAdmin,
+                            surName: user.surName
                         });
                     })
                     .catch(err => {
@@ -69,7 +71,8 @@ passport.use(new FacebookStrategy({
                             token,
                             name: user.name,
                             email: user.email,
-                            isAdmin: user.isAdmin
+                            isAdmin: user.isAdmin,
+                            surName: user.surName
                         });
                     })
             }else{
@@ -77,6 +80,7 @@ passport.use(new FacebookStrategy({
                 user.email = data.email;
                 user.name = data.name;
                 user.role = 'student';
+                user.surName = data.surName;
                 user.save()
                     .then(response => done(null, response))
                     .catch(err => done(null, err));
