@@ -56,6 +56,7 @@ router.get('/google',
 router.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res)  => {
+        res.setHeader('Authorization', req.user.token);
         res.json(req.user);
     });
 
