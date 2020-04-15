@@ -45,8 +45,7 @@ const signIn = (req, res) => {
                     res.json({
                         name: user.name,
                         email: user.email,
-                        isAdmin: user.isAdmin,
-                        surName: user.surName
+                        isAdmin: user.isAdmin
                     });
                 })
         } else {
