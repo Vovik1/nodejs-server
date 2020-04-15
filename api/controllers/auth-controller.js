@@ -42,7 +42,7 @@ const signIn = (req, res) => {
                 .catch(err => {
                     user.isAdmin = false;
                     token = user.generateJwt();
-                    res.setHeader('Authorization', token);
+                    res.setHeader('Access-Token', token);
                     res.json({
                         name: user.name,
                         email: user.email,
