@@ -7,6 +7,7 @@ const authController = require('../controllers/auth-controller');
 const lectureController = require('../controllers/lecture-controller');
 const awsController = require('../controllers/aws-controller');
 const messagesController = require('../controllers/messages-controller');
+const editeProfileController = require('../controllers/edit-profile-controller');
 
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
@@ -71,5 +72,9 @@ router.get(`/facebook/callback`,
         res.setHeader('Authorization', req.user.token);
         res.json(req.user);
     });
+
+// profile updating
+
+router.put(`/updateProfile`, editeProfileController.)
 
 module.exports = router;
