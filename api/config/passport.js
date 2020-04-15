@@ -56,6 +56,7 @@ passport.use(new FacebookStrategy({
                         user.isAdmin = req;
                         const token = user.generateJwt();
                         done(null, {
+                            token,
                             name: user.name,
                             email: user.email,
                             isAdmin: user.isAdmin
@@ -65,6 +66,7 @@ passport.use(new FacebookStrategy({
                         user.isAdmin = false;
                         const token = user.generateJwt();
                         done(null, {
+                            token,
                             name: user.name,
                             email: user.email,
                             isAdmin: user.isAdmin
@@ -103,6 +105,7 @@ passport.use(new GoogleStrategy({
                       user.isAdmin = req;
                       const token = user.generateJwt();
                       done(null, {
+                          token,
                           name: user.name,
                           email: user.email,
                           isAdmin: user.isAdmin
@@ -112,6 +115,7 @@ passport.use(new GoogleStrategy({
                       user.isAdmin = false;
                       const token = user.generateJwt();
                       done(null, {
+                          token,
                           name: user.name,
                           email: user.email,
                           isAdmin: user.isAdmin

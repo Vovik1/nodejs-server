@@ -75,6 +75,5 @@ router.get(`/facebook/callback`,
 
 // profile updating
 
-router.put(`/updateProfile`, editeProfileController.)
 
 module.exports = router;
