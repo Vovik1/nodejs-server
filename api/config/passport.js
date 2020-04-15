@@ -112,7 +112,8 @@ passport.use(new GoogleStrategy({
                           token,
                           name: user.name,
                           email: user.email,
-                          isAdmin: user.isAdmin
+                          isAdmin: user.isAdmin,
+                          surName: user.surName
                       });
                   })
                   .catch(err => {
@@ -122,7 +123,8 @@ passport.use(new GoogleStrategy({
                           token,
                           name: user.name,
                           email: user.email,
-                          isAdmin: user.isAdmin
+                          isAdmin: user.isAdmin,
+                          surName: user.surName
                       });
                   })
           }else{
@@ -130,6 +132,7 @@ passport.use(new GoogleStrategy({
               user.email = data.email;
               user.name = data.name;
               user.role = 'student';
+              user.surName = '';
                user.save()
                   .then(response => done(null, response))
                   .catch(err => done(null, err));
