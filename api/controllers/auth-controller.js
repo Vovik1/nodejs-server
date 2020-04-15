@@ -46,7 +46,6 @@ const signIn = (req, res) => {
                         name: user.name,
                         email: user.email,
                         isAdmin: user.isAdmin
-                        surName: user.surName
                     });
                 })
         } else {
