@@ -31,7 +31,7 @@ const signIn = (req, res) => {
                 .then(req => {
                     user.isAdmin = req;
                     token = user.generateJwt();
-                    res.setHeader('Authorization', token);
+                    res.setHeader('Access-Token', token);
                     res.status(200).json({
                         name: user.name,
                         email: user.email,
