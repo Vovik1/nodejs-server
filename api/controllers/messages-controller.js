@@ -17,7 +17,7 @@ const doAddMessage = (req, res, lecture) => {
             if(err){
                 res.status(400).json(err)
             } else {
-                const thisMessage = lecture.messages;
+                const thisMessage = lecture.messages.slice(-1).pop();
                 res.status(201).json(thisMessage);
             }
         })
