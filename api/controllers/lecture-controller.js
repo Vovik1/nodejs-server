@@ -6,6 +6,7 @@ async function getAll(req, res) {
         const docs = await Lecture.find()
         const lectures = docs.map(doc => {
             return {
+                id: doc._id,
                 imgUrl: doc.imgUrl,
                 title: doc.title,
                 author: doc.author,
