@@ -58,7 +58,11 @@ router.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res)  => {
         res.setHeader('Authorization', req.user.token);
-        res.json(req.user);
+        res.json({
+            "name": req.user.name,
+            "email": req.user.email,
+            "isAdmin": req.user.isAdmin
+        });
     });
 
 router.get('/facebook',
@@ -70,7 +74,11 @@ router.get(`/facebook/callback`,
     }),
     (req, res)  => {
         res.setHeader('Authorization', req.user.token);
-        res.json(req.user);
+        res.json({
+            "name": req.user.name,
+            "email": req.user.email,
+            "isAdmin": req.user.isAdmin
+        });
     });
 
 // profile updating

@@ -32,7 +32,6 @@ const signIn = (req, res) => {
                     token = user.generateJwt();
                     res.setHeader('Authorization', token);
                     res.status(200).json({
-                        token,
                         name: user.name,
                         email: user.email,
                         isAdmin: user.isAdmin
@@ -43,7 +42,6 @@ const signIn = (req, res) => {
                     token = user.generateJwt();
                     res.setHeader('Authorization', token);
                     res.json({
-                        token,
                         name: user.name,
                         email: user.email,
                         isAdmin: user.isAdmin
