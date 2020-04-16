@@ -133,7 +133,7 @@ passport.use(new GoogleStrategy({
               user.name = data.name;
               user.role = 'student';
               user.surName = '';
-               user.save()
+              const response = user.save()
                   .then(response => done(null, response))
                   .catch(err => done(null, err));
           }
