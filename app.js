@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const passport = require('passport');
+const cors = require(`cors`);
 require('./api/models/db');
 require('./api/config/passport');
 
@@ -24,6 +25,7 @@ app.use('/api', (req, res, next) => {
   next();
 });
 
+app.use(cors());
 app.use('/api', apiRouter);
 
 module.exports = app;
