@@ -2,11 +2,12 @@ const express = require('express');
 const passport = require('passport');
 const router = new express.Router();
 const authCheck = require('../middleware/auth-check');
+const lectureRouter = require("./lecture-router")
 
 const authController = require('../controllers/auth-controller');
-const lectureController = require('../controllers/lecture-controller');
+
 const awsController = require('../controllers/aws-controller');
-const messagesController = require('../controllers/messages-controller');
+
 const editProfileController = require('../controllers/edit-profile-controller');
 const categoryController = require('../controllers/category-controller');
 
@@ -14,32 +15,6 @@ const categoryController = require('../controllers/category-controller');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
-
-//lectures
-router
-    .route('/lectures/all')
-    .get(lectureController.getAll)
-
-router
-    .route('/lectures/:categoryid')
-    .get(lectureController.getLecturesByCategory);
-
-router
-    .route('/lectures')
-    .get(authCheck, lectureController.getAllUsersLectures)
-    .post(authCheck, lectureController.create);
-
-
-router
-    .route('/lectures/:lectureid')
-    .get(authCheck, lectureController.getOne)    
-    .put(authCheck, lectureController.update)
-    .delete(authCheck, lectureController.remove);
-
-// messages
-router
-  .route('/lectures/:lectureid/messages')
-  .post(authCheck, messagesController.messagesCreate);
 
 // router
 //   .route('/lectures/:lecturesid/messages/:messageid')
@@ -100,4 +75,5 @@ router
     .route('/editProfile')
     .put(authCheck, editProfileController.updateProfile);
 
+router.use('/lectures', lectureRouter)
 module.exports = router;
