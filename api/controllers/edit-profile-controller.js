@@ -20,4 +20,4 @@ const updateName = async (req, res) => {
     }
 }
 
-module.exports = {updateProfile};
+module.exports = {updateName};
