@@ -7,7 +7,7 @@ const authController = require('../controllers/auth-controller');
 const lectureController = require('../controllers/lecture-controller');
 const awsController = require('../controllers/aws-controller');
 const messagesController = require('../controllers/messages-controller');
-const editeProfileController = require('../controllers/edit-profile-controller');
+const editProfileController = require('../controllers/edit-profile-controller');
 const categoryController = require('../controllers/category-controller');
 
 
