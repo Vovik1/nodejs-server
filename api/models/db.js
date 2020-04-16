@@ -29,3 +29,4 @@ connect();
 
 require('./lecture-model');
 require('./user-model');
+require('./category-model');

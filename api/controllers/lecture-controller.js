@@ -14,8 +14,29 @@ async function getAll(req, res) {
                 oldPrice: doc.oldPrice,
                 newPrice: doc.newPrice, 
                 videoUrl: doc.videoUrl,
-                description: doc.description,
-                messages: doc.messages
+                description: doc.description
+            }
+        })
+        res.status(200).json(lectures);
+    } catch(err) {
+        res.json(err);
+    }
+};
+
+async function getLecturesByCategory(req, res) {
+    try {
+        const docs = await Lecture.find({"categoryId":req.params.categoryid})
+        const lectures = docs.map(doc => {
+            return {
+                id: doc._id,
+                imgUrl: doc.imgUrl,
+                title: doc.title,
+                author: doc.author,
+                defaultRating: doc.defaultRating,
+                oldPrice: doc.oldPrice,
+                newPrice: doc.newPrice, 
+                videoUrl: doc.videoUrl,
+                description: doc.description
             }
         })
         res.status(200).json(lectures);
@@ -115,4 +136,12 @@ async function remove(req, res){
     }
 }
 
-module.exports = {getAll, getAllUsersLectures, getOne, create, update, remove};
+module.exports = {
+    getAll, 
+    getLecturesByCategory, 
+    getAllUsersLectures, 
+    getOne, 
+    create, 
+    update, 
+    remove
+};
