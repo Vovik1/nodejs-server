@@ -96,7 +96,8 @@ async function create(req, res) {
             title: req.body.title,
             videoUrl: req.body.videoUrl,
             description: req.body.description,
-            messages:req.body.messages
+            messages:req.body.messages,
+            userId: req.userData._id
         })
         const lecture = await newLecture.save()
         res.status(201).json(lecture);    
