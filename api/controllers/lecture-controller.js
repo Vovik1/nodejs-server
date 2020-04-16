@@ -107,7 +107,7 @@ async function create(req, res) {
 
 async function update(req, res) {
     try{
-        const response = await Lecture.updateOne({'_id': req.body.id}, {$set:{
+        const response = await Lecture.updateOne({_id: req.body.id}, {$set:{
             title: req.body.title,
             videoUrl: req.body.videoUrl,
             description: req.body.description,
@@ -123,11 +123,7 @@ async function update(req, res) {
 async function remove(req, res){
     try{
         const response = await Lecture.remove({
-            _id: req.body.id,
-            title: req.body.title,
-            videoUrl: req.body.videoUrl,
-            description: req.body.description,
-            messages: req.body.messages
+            _id: req.body.id
         });
         res.status(200).json(response);
     }
