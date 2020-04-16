@@ -5,7 +5,7 @@ const updateProfile = async (req, res) => {
     try{
       const user = await User.findOne({email: req.body.oldData.email})
        if(!user){
-           res.json('Updating failed');
+           res.json({message: "user does not exist"});
        }
        user.name = req.body.newData.first_name;
         user.surName = req.body.newData.surName;

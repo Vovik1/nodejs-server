@@ -46,9 +46,9 @@ router.get('/google/callback',
     (req, res)  => {
         res.setHeader('Access-Token', req.user.token);
         res.json({
-            "name": req.user.name,
-            "email": req.user.email,
-            "isAdmin": req.user.isAdmin
+            name: req.user.name,
+            email: req.user.email,
+            isAdmin: req.user.isAdmin
         });
     });
 
@@ -62,16 +62,18 @@ router.get(`/facebook/callback`,
     (req, res)  => {
         res.setHeader('Access-Token', req.user.token);
         res.json({
-            "name": req.user.name,
-            "email": req.user.email,
-            "isAdmin": req.user.isAdmin,
-            "surName": req.user.surName
+            name: req.user.name,
+            email: req.user.email,
+            isAdmin: req.user.isAdmin,
+            surName: req.user.surName
         });
     });
 
 // profile updating
 
-router.put('/editProfile', editProfileController.updateProfile);
+router
+    .route('/editProfile')
+    .put(authCheck, editProfileController.updateProfile);
 
 router.use('/lectures', lectureRouter)
 module.exports = router;
