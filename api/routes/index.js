@@ -73,7 +73,7 @@ router.get(`/facebook/callback`,
 
 router
     .route('/editProfile')
-    .post(authCheck, editProfileController.updateProfile);
+    .put(authCheck, editProfileController.updateProfile);
 
 router.use('/lectures', lectureRouter)
 module.exports = router;
