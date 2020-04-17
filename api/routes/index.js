@@ -44,8 +44,14 @@ router.get('/google',
 router.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res)  => {
-        res.setHeader('Access-Token', req.user.token);
-        res.json({
+        if(req.err){
+            res.json(err);
+        }
+
+        if(req.user.hasOwnProperty(`token`)){
+            res.setHeader('Access-Token', req.user.token);
+        }
+        res.status(200).json({
             name: req.user.name,
             email: req.user.email,
             isAdmin: req.user.isAdmin
@@ -60,8 +66,11 @@ router.get(`/facebook/callback`,
         failureRedirect: '/'
     }),
     (req, res)  => {
+    if(req.err){
+        res.json(err);
+    }
         res.setHeader('Access-Token', req.user.token);
-        res.json({
+        res.status(200).json({
             name: req.user.name,
             email: req.user.email,
             isAdmin: req.user.isAdmin,
@@ -72,8 +81,12 @@ router.get(`/facebook/callback`,
 // profile updating
 
 router
-    .route('/editProfile')
-    .put(authCheck, editProfileController.updateProfile);
+    .route('/editName')
+    .put(authCheck, editProfileController.updateName);
+
+router
+    .route('/editEmail')
+    .put(authCheck, editProfileController.updateEmail);
 
 router.use('/lectures', lectureRouter)
 module.exports = router;

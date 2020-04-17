@@ -48,7 +48,6 @@ passport.use(new FacebookStrategy({
         name: profile._json.first_name,
         surName: profile._json.last_name
       };
-        //done(null, {user: {user: data}});
         User.findOne({'email': data.email}, (err, user) => {
             if(err){ return done(err);}
             if(user){
@@ -82,8 +81,13 @@ passport.use(new FacebookStrategy({
                 user.role = 'student';
                 user.surName = data.surName;
                 user.save()
-                    .then(response => done(null, response))
-                    .catch(err => done(null, err));
+                    .then(response => done(null, {
+                        name: user.name,
+                        email: user.email,
+                        isAdmin: false,
+                        surName: user.surName
+                    }))
+                    .catch(err => done(err));
             }
         });
     }
@@ -123,7 +127,7 @@ passport.use(new GoogleStrategy({
                           token,
                           name: user.name,
                           email: user.email,
-                          isAdmin: user.isAdmin,
+                          isAdmin: false,
                           surName: user.surName
                       });
                   })
@@ -133,9 +137,14 @@ passport.use(new GoogleStrategy({
               user.name = data.name;
               user.role = 'student';
               user.surName = '';
-              const response = user.save()
-                  .then(response => done(null, response))
-                  .catch(err => done(null, err));
+              user.save()
+                  .then(response => done(null, {
+                      name: user.name,
+                      email: user.email,
+                      isAdmin: false,
+                      surName: user.surName
+                  }))
+                  .catch(err => done(err));
           }
       });
     }
