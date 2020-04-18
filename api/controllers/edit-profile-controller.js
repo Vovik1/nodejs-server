@@ -54,8 +54,7 @@ const updateEmail = async (req, res) => {
 
 const updatePassword = async(req, res) => {
     if(!req.body.oldData.email || ! req.body.oldData.password) return res.status(422).json({message: 'Current email and password are required'});
-    if(!req.body.newData.password || !req.body.newData.repeatedPassword) return res.status(422).json({message: 'New password and repeated password are required'});
-    if(req.body.newData.password != req.body.newData.repeatedPassword) return res.status(422).json({message: 'Password and repeated password does not match'});
+    if(!req.body.newData.password) return res.status(422).json({message: 'New password is required'});
     if(req.body.newData.password == req.body.oldData.password) return res.status(422).json({message: 'New password can not be the same as old password'});
     try{
         const user = await User.findOne({email: req.body.oldData.email});
