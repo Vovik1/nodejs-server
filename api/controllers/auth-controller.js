@@ -51,8 +51,7 @@ const signIn = (req, res) => {
                     });
                 })
         } else {
-            res.status(401)
-            .json(info);
+            res.status(401).json(info);
         }
         })(req, res);
 }

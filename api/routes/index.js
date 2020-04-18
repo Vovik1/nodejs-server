@@ -88,5 +88,10 @@ router
     .route('/editEmail')
     .put(authCheck, editProfileController.updateEmail);
 
+
+router
+    .route('/editPassword')
+    .put(authCheck, editProfileController.updatePassword);
+
 router.use('/lectures', lectureRouter)
 module.exports = router;
