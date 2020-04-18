@@ -5,11 +5,10 @@ const authCheck = require('../middleware/auth-check');
 const lectureRouter = require("./lecture-router")
 
 const authController = require('../controllers/auth-controller');
-
 const awsController = require('../controllers/aws-controller');
-
 const editProfileController = require('../controllers/edit-profile-controller');
 const categoryController = require('../controllers/category-controller');
+const reviewController = require('../controllers/review-controller');
 
 
 const mongoose = require('mongoose');
@@ -21,6 +20,12 @@ const User = mongoose.model('User');
 //   .get(ctrlReviews.reviewsReadOne)
 //   .put(ctrlReviews.reviewsUpdateOne)
 //   .delete(ctrlReviews.reviewsDeleteOne);
+
+// reviews
+router
+    .route('/reviews')
+    .get(reviewController.getReviews);
+
 
 // categories
 router
