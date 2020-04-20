@@ -56,7 +56,7 @@ const uploadAvatar = (req,res) => {
             surName: updatedUser.surName,
             email: updatedUser.email,
             role: updatedUser.role,
-            imageUrl: updatedUser.imageUrl
+            imageUrl: imageLocation
         }
       });
       }
