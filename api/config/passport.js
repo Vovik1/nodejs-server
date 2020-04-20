@@ -4,7 +4,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-const isAdmin = require('../middleware/isAdmin');
+//const isAdmin = require('../middleware/isAdmin');
 
 
 passport.serializeUser((user, done) => {
@@ -51,29 +51,14 @@ passport.use(new FacebookStrategy({
         User.findOne({'email': data.email}, (err, user) => {
             if(err){ return done(err);}
             if(user){
-                isAdmin(user.email)
-                    .then(req => {
-                        user.isAdmin = req;
-                        const token = user.generateJwt();
-                        done(null, {
-                            token,
-                            name: user.name,
-                            email: user.email,
-                            isAdmin: user.isAdmin,
-                            surName: user.surName
-                        });
-                    })
-                    .catch(err => {
-                        user.isAdmin = false;
-                        const token = user.generateJwt();
-                        done(null, {
-                            token,
-                            name: user.name,
-                            email: user.email,
-                            isAdmin: user.isAdmin,
-                            surName: user.surName
-                        });
-                    })
+                done(null, {
+                    token: user.generateJwt(),
+                    _id: user._id,
+                    name: user.name,
+                    surName: user.surName,
+                    email: user.email,
+                    role: user.role
+                });
             }else{
                 const user = new User();
                 user.email = data.email;
@@ -83,9 +68,9 @@ passport.use(new FacebookStrategy({
                 user.save()
                     .then(response => done(null, {
                         name: user.name,
+                        surName: user.surName,
                         email: user.email,
-                        isAdmin: false,
-                        surName: user.surName
+                        role: user.role
                     }))
                     .catch(err => done(err));
             }
@@ -107,31 +92,16 @@ passport.use(new GoogleStrategy({
 
        User.findOne({'email': data.email}, (err, user)=> {
           if(err){ return done(err);}
-          if(user){
-              isAdmin(user.email)
-                  .then(req => {
-                      user.isAdmin = req;
-                      const token = user.generateJwt();
-                      done(null, {
-                          token,
-                          name: user.name,
-                          email: user.email,
-                          isAdmin: user.isAdmin,
-                          surName: user.surName
-                      });
-                  })
-                  .catch(err => {
-                      user.isAdmin = false;
-                      const token = user.generateJwt();
-                      done(null, {
-                          token,
-                          name: user.name,
-                          email: user.email,
-                          isAdmin: false,
-                          surName: user.surName
-                      });
-                  })
-          }else{
+           if(user){
+               done(null, {
+                   token: user.generateJwt(),
+                   _id: user._id,
+                   name: user.name,
+                   surName: user.surName,
+                   email: user.email,
+                   role: user.role
+               });
+           }else{
               const user = new User();
               user.email = data.email;
               user.name = data.name;
@@ -139,6 +109,7 @@ passport.use(new GoogleStrategy({
               user.surName = '';
               user.save()
                   .then(response => done(null, {
+                      _id: user._id,
                       name: user.name,
                       email: user.email,
                       isAdmin: false,
