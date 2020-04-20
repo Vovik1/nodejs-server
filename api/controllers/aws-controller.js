@@ -50,7 +50,15 @@ const uploadAvatar = (req,res) => {
         const imageLocation = req.file.location;
         const userId = req.userData._id;
         const updatedUser = await User.findByIdAndUpdate(userId, {$set: { imageUrl: imageLocation }});
-        return res.status(200).json(updatedUser);  
+        return res.status(200).json({updatedUser: {
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            surName: updatedUser.surName,
+            email: updatedUser.email,
+            role: updatedUser.role,
+            imageUrl: updatedUser.imageUrl
+        }
+      });
       }
   })
 }
