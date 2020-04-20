@@ -1,10 +1,14 @@
-const {mongoDbUser, mongoDbPassword, mongoHost} = require('../config/config')
 const mongoose = require('mongoose');
-const dbURL = `mongodb+srv://${mongoDbUser}:${mongoDbPassword}@${mongoHost}`;
+const dbURL = `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@${process.env.MONGO_DB_HOST}`;
 
 
 const connect = () => {
-    setTimeout(() => mongoose.connect(dbURL, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }), 1000);
+    setTimeout(() => mongoose.connect(dbURL, {
+      useNewUrlParser: true, 
+      useCreateIndex: true, 
+      useUnifiedTopology: true, 
+      useFindAndModify: false}
+      ), 1000);
   }
   
 mongoose.connection.on('connected', () => {
@@ -25,3 +29,5 @@ connect();
 
 require('./lecture-model');
 require('./user-model');
+require('./category-model');
+require('./review-model');

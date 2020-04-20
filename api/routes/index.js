@@ -2,50 +2,38 @@ const express = require('express');
 const passport = require('passport');
 const router = new express.Router();
 const authCheck = require('../middleware/auth-check');
+const lectureRouter = require('./lecture-router');
+const userRouter = require('./user-router');
+const editUserRouter = require('./edit-user-router');
 
-const authController = require('../controllers/auth-controller');
-const lectureController = require('../controllers/lecture-controller');
 const awsController = require('../controllers/aws-controller');
+const categoryController = require('../controllers/category-controller');
+const reviewController = require('../controllers/review-controller');
 
-const mongoose = require('mongoose');
-const User = mongoose.model('User');
+// router
+//   .route('/lectures/:lecturesid/messages/:messageid')
+//   .get(ctrlReviews.reviewsReadOne)
+//   .put(ctrlReviews.reviewsUpdateOne)
+//   .delete(ctrlReviews.reviewsDeleteOne);
 
-
-//lectures
+// reviews
 router
-    .route('/lecture')
-    .get(lectureController.getAll)
-    .post(authCheck, lectureController.create)
-    .put(authCheck, lectureController.update)
-    .delete(authCheck, lectureController.remove);
+    .route('/reviews')
+    .get(reviewController.getReviews);
+
+
+// categories
+router
+    .route('/categories/all')
+    .get(categoryController.getAllCategories);
 
 //aws-s3
 router
     .route('/aws/upload-avatar')
-    .post(awsController.uploadAvatar)
+    .post(authCheck, awsController.uploadAvatar);
 
-//auth
-router.post('/signup', authController.signUp);
-router.post('/signin', authController.signIn);
 
-router.get('/google',
-    passport.authenticate('google', {scope: ['profile', 'email']}));
-
-router.get('/google/callback',
-    passport.authenticate('google', { failureRedirect: '/' }),
-    (req, res)  => {
-        res.json(req.user);
-    });
-
-router.get('/facebook',
-    passport.authenticate('facebook', { scope : ['email'] }));
-
-router.get(`/facebook/callback`,
-    passport.authenticate('facebook', {
-        failureRedirect: '/'
-    }),
-    (req, res)  => {
-        res.json(req.user);
-    });
-
+router.use('/lectures', lectureRouter);
+router.use('/user', userRouter);
+router.use('/edit', editUserRouter);
 module.exports = router;

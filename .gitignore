@@ -1,6 +1,7 @@
 .idea
 .env
 node_modules
+api/config/config.js
 
 yarn.lock
 package-lock.json
