@@ -90,14 +90,16 @@ async function getOne(req,res) {
 };
 
 
-async function create(req, res) {
+async function createLecture(req, res) {
     try {
         const newLecture = new Lecture({
             title: req.body.title,
             videoUrl: req.body.videoUrl,
             description: req.body.description,
             messages:req.body.messages,
-            userId: req.userData._id
+            userId: req.userData._id,
+            oldPrice: doc.oldPrice,
+            newPrice: doc.newPrice
         })
         const lecture = await newLecture.save()
         res.status(201).json(lecture);    
@@ -106,7 +108,10 @@ async function create(req, res) {
     }
 };
 
-async function update(req, res) {
+async function lectureUpdate(req, res) {
+    if(!req.params.lectureid){
+        return res.status(404).json({"message":"Not found, lectureid is required"})
+    }
     try{
         const response = await Lecture.updateOne({_id: req.body.id}, {$set:{
             title: req.body.title,
@@ -138,7 +143,7 @@ module.exports = {
     getLecturesByCategory, 
     getAllUsersLectures, 
     getOne, 
-    create, 
-    update, 
+    createLecture, 
+    lectureUpdate, 
     remove
 };
