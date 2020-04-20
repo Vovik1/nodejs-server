@@ -20,8 +20,13 @@ app.use(passport.initialize());
 app.use('/api', (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+<<<<<<< HEAD
   res.header('Access-Control-Expose-Headers', 'access-token');
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE');
+=======
+  res.header('Access-Control-Expose-Headers', 'Access-Token, access-token');
+  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+>>>>>>> c4c34b339ba495fe8f0b2967ea617fd28d8636db
   next();
 });
 

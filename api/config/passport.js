@@ -4,6 +4,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const isAdmin = require('../middleware/isAdmin');
 
 passport.serializeUser((user, done) => {
     done(null, user);
@@ -56,7 +57,7 @@ passport.use(new FacebookStrategy({
                     surName: user.surName,
                     email: user.email,
                     role: user.role
-                });
+                })
             }else{
 
                 const user = new User();
