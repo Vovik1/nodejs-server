@@ -30,11 +30,9 @@ signUp = async (req, res) => {
 const signIn = (req, res) => {
     if (!req.body.email || !req.body.password) return res.status(422).json({message: 'email and password are required'});
     passport.authenticate('local', (err, user, info) => {
-        let token;
         if (err) return res.status(404).json(err);
         if (user) {
-            token = user.generateJwt();
-            res.setHeader('Access-Token', token);
+            res.setHeader('Access-Token', user.generateJwt());
             res.status(200).json({
                 _id: user._id,
                 name: user.name,
