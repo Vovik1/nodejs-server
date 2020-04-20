@@ -1,7 +1,6 @@
 const passport = require('passport');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-const check_admin = require(`../middleware/isAdmin`)
 
 signUp = async (req, res) => {
     if (!req.body.email || !req.body.password) return res.status(422).json({message: 'email and password are required'});
@@ -15,7 +14,14 @@ signUp = async (req, res) => {
         user.surName = '';
         user.setPassword(req.body.password);
         const response = await user.save()
-        res.status(201).json({message: 'user created', response});
+        res.status(201).json({message: 'user created', user:{
+                _id: response._id,
+                name: response.name,
+                surName: response.surName,
+                email: response.email,
+                role: response.role
+            }
+        });
     } catch(err) {
         res.status(500).json(err);
     }  
@@ -27,29 +33,15 @@ const signIn = (req, res) => {
         let token;
         if (err) return res.status(404).json(err);
         if (user) {
-            check_admin(user.email)
-                .then(req => {
-                    user.isAdmin = req;
-                    token = user.generateJwt();
-                    res.setHeader('Access-Token', token);
-                    res.status(200).json({
-                        name: user.name,
-                        email: user.email,
-                        isAdmin: user.isAdmin,
-                        surName: user.surName
-                    });
-                })
-                .catch(err => {
-                    user.isAdmin = false;
-                    token = user.generateJwt();
-                    res.setHeader('Access-Token', token);
-                    res.json({
-                        name: user.name,
-                        email: user.email,
-                        isAdmin: user.isAdmin,
-                        surName: user.surName
-                    });
-                })
+            token = user.generateJwt();
+            res.setHeader('Access-Token', token);
+            res.status(200).json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                surName: user.surName,
+                role: user.role
+            });
         } else {
             res.status(401).json(info);
         }

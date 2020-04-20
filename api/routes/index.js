@@ -10,10 +10,8 @@ const editProfileController = require('../controllers/edit-profile-controller');
 const categoryController = require('../controllers/category-controller');
 const reviewController = require('../controllers/review-controller');
 
-
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-
 
 // router
 //   .route('/lectures/:lecturesid/messages/:messageid')
@@ -57,9 +55,11 @@ router.get('/google/callback',
             res.setHeader('Access-Token', req.user.token);
         }
         res.status(200).json({
+            _id: req.user._id,
             name: req.user.name,
+            surName: req.user.surName,
             email: req.user.email,
-            isAdmin: req.user.isAdmin
+            role: req.user.role
         });
     });
 
@@ -76,10 +76,11 @@ router.get(`/facebook/callback`,
     }
         res.setHeader('Access-Token', req.user.token);
         res.status(200).json({
+            _id: req.user._id,
             name: req.user.name,
+            surName: req.user.surName,
             email: req.user.email,
-            isAdmin: req.user.isAdmin,
-            surName: req.user.surName
+            role: req.user.role
         });
     });
 
