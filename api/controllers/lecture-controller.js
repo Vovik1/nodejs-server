@@ -12,20 +12,20 @@ async function getAll(req, res) {
                 author: doc.author,
                 defaultRating: doc.defaultRating,
                 oldPrice: doc.oldPrice,
-                newPrice: doc.newPrice, 
+                newPrice: doc.newPrice,
                 videoUrl: doc.videoUrl,
                 description: doc.description
             }
         })
         res.status(200).json(lectures);
-    } catch(err) {
+    } catch (err) {
         res.json(err);
     }
 };
 
 async function getLecturesByCategory(req, res) {
     try {
-        const docs = await Lecture.find({"categoryId":req.params.categoryid})
+        const docs = await Lecture.find({ "categoryId": req.params.categoryid })
         const lectures = docs.map(doc => {
             return {
                 id: doc._id,
@@ -34,20 +34,20 @@ async function getLecturesByCategory(req, res) {
                 author: doc.author,
                 defaultRating: doc.defaultRating,
                 oldPrice: doc.oldPrice,
-                newPrice: doc.newPrice, 
+                newPrice: doc.newPrice,
                 videoUrl: doc.videoUrl,
                 description: doc.description
             }
         })
         res.status(200).json(lectures);
-    } catch(err) {
+    } catch (err) {
         res.json(err);
     }
 };
 
 async function getAllUsersLectures(req, res) {
     try {
-        const docs = await Lecture.find({'userId': req.userData._id})
+        const docs = await Lecture.find({ 'userId': req.userData._id })
         const lectures = docs.map(doc => {
             return {
                 id: doc._id,
@@ -56,18 +56,18 @@ async function getAllUsersLectures(req, res) {
                 author: doc.author,
                 defaultRating: doc.defaultRating,
                 oldPrice: doc.oldPrice,
-                newPrice: doc.newPrice, 
+                newPrice: doc.newPrice,
                 videoUrl: doc.videoUrl,
                 description: doc.description
             }
         })
         res.status(200).json(lectures);
-    } catch(err) {
+    } catch (err) {
         res.json(err);
     }
 };
 
-async function getOne(req,res) {
+async function getOne(req, res) {
     try {
         const doc = await Lecture.findById(req.params.lectureid)
         if (!doc) return res.sendStatus(404);
@@ -78,67 +78,84 @@ async function getOne(req,res) {
             author: doc.author,
             defaultRating: doc.defaultRating,
             oldPrice: doc.oldPrice,
-            newPrice: doc.newPrice, 
+            newPrice: doc.newPrice,
             videoUrl: doc.videoUrl,
             description: doc.description,
-            messages:doc.messages
+            messages: doc.messages
         }
         res.status(200).json(post);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 };
 
 
-async function create(req, res) {
+async function lectureCreate(req, res) {
     try {
         const newLecture = new Lecture({
             title: req.body.title,
+            author: req.author,
+            imgUrl: req.body.imgUrl,
             videoUrl: req.body.videoUrl,
             description: req.body.description,
-            messages:req.body.messages,
-            userId: req.userData._id
+            messages: req.body.messages,
+            userId: req.userData._id,
+            oldPrice: req.body.oldPrice,
+            newPrice: req.body.newPrice
         })
         const lecture = await newLecture.save()
-        res.status(201).json(lecture);    
-    } catch(err) {
-        res.status(500).json(err);
+        res.status(201).json(lecture);
+    } catch (err) {
+        res.status(400).json(err);
     }
 };
 
-async function update(req, res) {
-    try{
-        const response = await Lecture.updateOne({_id: req.body.id}, {$set:{
-            title: req.body.title,
-            videoUrl: req.body.videoUrl,
-            description: req.body.description,
-            messages: req.body.messages
-        }});
-        res.status(200).json(response);
+function lectureUpdate(req, res) {
+    if (!req.params.lectureid) {
+        return res.status(404).json({ "message": "Not found, lectureid is required" })
     }
-    catch(err){
-        res.json(err);
+    Lecture
+        .findById(req.params.lectureid) 
+        .exec((err, lecture) => {
+            if(!lecture){
+                return res.json(404).status({"message": "lectureid not found"})
+            } else if (err) {
+                return res.status(400).json(err) 
+            }
+            Object.assign(lecture, req.body)
+            lecture.save((err,lecture) => {
+                if (err){
+                    res.status(404).json(err)
+                } else {
+                    res.status(200).json(lecture);
+                }  
+            });
+        })
     }
-}
 
-async function remove(req, res){
-    try{
-        const response = await Lecture.remove({
-            _id: req.body.id
-        });
-        res.status(200).json(response);
-    }
-    catch(err){
-        res.json(err);
-    }
+
+function lectureRemove(req, res) {
+    const {lectureid} = req.params;
+    if(lectureid){
+        Lecture
+            .findByIdAndRemove(lectureid)
+            .exec((err, lecture) => {
+                if (err) {
+                    return res.status(404).json(err)
+                }
+                res.status(204).json(null)
+            })
+    } else {
+        res.status(404).json({"message":"No Location"})
+    }  
 }
 
 module.exports = {
-    getAll, 
-    getLecturesByCategory, 
-    getAllUsersLectures, 
-    getOne, 
-    create, 
-    update, 
-    remove
+    getAll,
+    getLecturesByCategory,
+    getAllUsersLectures,
+    getOne,
+    lectureCreate,
+    lectureUpdate,
+    lectureRemove
 };

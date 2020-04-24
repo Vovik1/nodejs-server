@@ -10,11 +10,7 @@ const awsController = require('../controllers/aws-controller');
 const categoryController = require('../controllers/category-controller');
 const reviewController = require('../controllers/review-controller');
 
-// router
-//   .route('/lectures/:lecturesid/messages/:messageid')
-//   .get(ctrlReviews.reviewsReadOne)
-//   .put(ctrlReviews.reviewsUpdateOne)
-//   .delete(ctrlReviews.reviewsDeleteOne);
+
 
 // reviews
 router

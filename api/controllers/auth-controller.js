@@ -1,7 +1,6 @@
 const passport = require('passport');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
- const check_admin = require(`../middleware/isAdmin`)
 
 signUp = async (req, res) => {
     if (!req.body.email || !req.body.password) return res.status(422).json({message: 'email and password are required'});

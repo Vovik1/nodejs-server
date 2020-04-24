@@ -14,7 +14,7 @@ router.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res)  => {
         if(req.err){
-            res.json(err);
+            return res.status(500).json(err);
         }
 
         if(req.user.hasOwnProperty(`token`)){
@@ -38,7 +38,7 @@ router.get(`/facebook/callback`,
     }),
     (req, res)  => {
         if(req.err){
-            res.json(err);
+            return res.status(500).json(err);
         }
         res.setHeader('Access-Token', req.user.token);
         res.status(200).json({
