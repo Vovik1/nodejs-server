@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
-<<<<<<< HEAD
 const updateName = async (req, res) => {
     if(!req.body.oldData.email) return res.status(422).json({message: 'Email address is required'});
     if(!req.body.newData.first_name || !req.body.newData.surName) return res.status(422).json({message: 'First name and surname are required'});
