@@ -5,8 +5,6 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
-
-
 passport.serializeUser((user, done) => {
     done(null, user);
 });
@@ -60,7 +58,6 @@ passport.use(new FacebookStrategy({
                     role: user.role
                 });
             }else{
-
                 const user = new User();
                 user.email = data.email;
                 user.name = data.name;
@@ -68,6 +65,7 @@ passport.use(new FacebookStrategy({
                 user.surName = data.surName;
                 user.save()
                     .then(response => done(null, {
+                        token: user.generateJwt(),
                         name: user.name,
                         surName: user.surName,
                         email: user.email,
@@ -110,6 +108,7 @@ passport.use(new GoogleStrategy({
               user.surName = '';
               user.save()
                   .then(response => done(null, {
+                      token: user.generateJwt(),
                       _id: user._id,
                       name: user.name,
                       email: user.email,
