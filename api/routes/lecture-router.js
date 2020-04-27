@@ -9,24 +9,17 @@ const messagesController = require('../controllers/messages-controller');
 router
     .route('/')
     .get(authCheck, lectureController.getAllUsersLectures)
-    .post(authCheck, lectureController.create);
+    .post(authCheck, lectureController.lectureCreate);
     
 router
     .route('/all')
     .get(lectureController.getAll)
 
-// router
-//     .route('/:categoryid')
-//     .get(lectureController.getLecturesByCategory);
-
-
-
-
 router
     .route('/:lectureid')
     .get(authCheck, lectureController.getOne)    
-    .put(authCheck, lectureController.update)
-    .delete(authCheck, lectureController.remove);
+    .put(authCheck, lectureController.lectureUpdate)
+    .delete(authCheck, lectureController.lectureRemove);
 
 // messages
 router
