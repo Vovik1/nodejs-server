@@ -18,6 +18,7 @@ const doAddMessage = (req, res, lecture) => {
                 res.status(400).json(err)
             } else {
                 const thisMessage = lecture.messages.slice(-1).pop();
+                req.app.io.to(lecture.id).emit('send_message', thisMessage);
                 res.status(201).json(thisMessage);
             }
         })
