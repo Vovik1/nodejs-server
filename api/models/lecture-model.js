@@ -21,12 +21,13 @@ const lectureSchema = new mongoose.Schema({
     author: String,
     title: {type: String, required: true},
     defaultRating:String,
-    oldPrice: String,
-    newPrice: String,
     videoUrl: String,
     description: {type:String, required: true},
     messages: [messageSchema],
-    userId: {type: mongoose.Schema.Types.ObjectId, required: true},
+    owner: {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'User'
+    },
     categoryId: {type: mongoose.Schema.Types.ObjectId}
 })
 

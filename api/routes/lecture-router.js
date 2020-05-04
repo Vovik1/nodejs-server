@@ -8,8 +8,12 @@ const messagesController = require('../controllers/messages-controller');
 //lectures
 router
     .route('/')
-    .get(authCheck, lectureController.getAllUsersLectures)
+    // .get(authCheck, lectureController.getAllUsersLectures)
     .post(authCheck, lectureController.lectureCreate);
+
+router
+    .route('/by_user')
+    .get(authCheck, lectureController.getUserFavouriteLectures);
     
 router
     .route('/all')
@@ -20,6 +24,24 @@ router
     .get(authCheck, lectureController.getOne)    
     .put(authCheck, lectureController.lectureUpdate)
     .delete(authCheck, lectureController.lectureRemove);
+
+router
+    .route('/:lectureid/add_to_favs')
+    .put(authCheck, lectureController.userAddFavourites);
+
+router
+    .route('/user/favourite')
+    .get(authCheck, lectureController.getUserFavouriteLectures);
+
+
+
+router
+    .route('/bycategory/:categoryid')
+    .get(authCheck, lectureController.getLecturesByCategory)
+
+// router
+//     .route('/bycategory/:categoryid')
+//     .get(authCheck, lectureController.getLecturesByCategory)
 
 // messages
 router

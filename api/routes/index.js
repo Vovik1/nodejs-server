@@ -7,6 +7,7 @@ const userRouter = require('./user-router');
 const editUserRouter = require('./edit-user-router');
 
 const awsController = require('../controllers/aws-controller');
+const awsVideoController = require('../controllers/aws-video-controller');
 const categoryController = require('../controllers/category-controller');
 const reviewController = require('../controllers/review-controller');
 
@@ -17,7 +18,6 @@ router
     .route('/reviews')
     .get(reviewController.getReviews);
 
-
 // categories
 router
     .route('/categories/all')
@@ -27,6 +27,10 @@ router
 router
     .route('/aws/upload-avatar')
     .post(authCheck, awsController.uploadAvatar);
+
+router
+    .route('/aws/upload-video')
+    .post(authCheck, awsVideoController.uploadVideo);
 
 
 router.use('/lectures', lectureRouter);

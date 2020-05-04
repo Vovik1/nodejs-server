@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Lecture = mongoose.model('Lecture');
+const User = mongoose.model('User');
 
 async function getAll(req, res) {
     try {
@@ -11,8 +12,6 @@ async function getAll(req, res) {
                 title: doc.title,
                 author: doc.author,
                 defaultRating: doc.defaultRating,
-                oldPrice: doc.oldPrice,
-                newPrice: doc.newPrice,
                 videoUrl: doc.videoUrl,
                 description: doc.description
             }
@@ -33,8 +32,6 @@ async function getLecturesByCategory(req, res) {
                 title: doc.title,
                 author: doc.author,
                 defaultRating: doc.defaultRating,
-                oldPrice: doc.oldPrice,
-                newPrice: doc.newPrice,
                 videoUrl: doc.videoUrl,
                 description: doc.description
             }
@@ -45,27 +42,62 @@ async function getLecturesByCategory(req, res) {
     }
 };
 
-async function getAllUsersLectures(req, res) {
-    try {
-        const docs = await Lecture.find({ 'userId': req.userData._id })
-        const lectures = docs.map(doc => {
-            return {
-                id: doc._id,
-                imgUrl: doc.imgUrl,
-                title: doc.title,
-                author: doc.author,
-                defaultRating: doc.defaultRating,
-                oldPrice: doc.oldPrice,
-                newPrice: doc.newPrice,
-                videoUrl: doc.videoUrl,
-                description: doc.description
-            }
-        })
-        res.status(200).json(lectures);
-    } catch (err) {
-        res.json(err);
+
+async function userAddFavourites (req, res) {
+       try{
+           const lecture = await Lecture.findById(req.params.lectureid);
+           const user = await User.findByIdAndUpdate(req.userData._id,{
+               $push: {favouriteLectures: lecture}
+           }, {
+               new:true
+            });
+           res.status(200).json(user);
+        } catch(err){
+            res.json(err)
+        } 
     }
-};
+
+function getUserFavouriteLectures(req, res){
+    let favouriteLectures;
+    User.
+    findOne({email: req.userData.email}).
+    populate('favouriteLectures', ['title', 'author', 'imgUrl', 'description' ]).
+    exec(function(err, user){
+        if(err){
+            return res.status(404).json(err)
+        }
+        favouriteLectures = user.favouriteLectures; 
+        res.json({favouriteLectures});
+    });
+}
+    //     const user = await User.findById(req.UserData._id);
+    //     console.log(user);
+   
+    // } catch (err) {
+    //     res.json(err);
+
+
+// async function getAllUsersLectures(req, res) {
+//     try {
+//         const foundLectures = await User.find({ 'userId': req.userData._id }).populate('lectures');
+//         const lectures = docs.map(doc => {
+//             return {
+//                 id: doc._id,
+//                 imgUrl: doc.imgUrl,
+//                 title: doc.title,
+//                 author: doc.author,
+//                 defaultRating: doc.defaultRating,
+//                 oldPrice: doc.oldPrice,
+//                 newPrice: doc.newPrice,
+//                 videoUrl: doc.videoUrl,
+//                 description: doc.description
+//             }
+//         })
+//         res.status(200).json(foundLectures);
+//     } catch (err) {
+//         res.json(err);
+//     }
+// };
 
 async function getOne(req, res) {
     try {
@@ -153,8 +185,9 @@ function lectureRemove(req, res) {
 module.exports = {
     getAll,
     getLecturesByCategory,
-    getAllUsersLectures,
+    userAddFavourites,
     getOne,
+    getUserFavouriteLectures,
     lectureCreate,
     lectureUpdate,
     lectureRemove
