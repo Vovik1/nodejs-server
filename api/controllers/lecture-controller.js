@@ -43,6 +43,7 @@ async function getLecturesByCategory(req, res) {
 };
 
 
+
 async function userAddFavourites (req, res) {
        try{
            const lecture = await Lecture.findById(req.params.lectureid);
@@ -54,8 +55,32 @@ async function userAddFavourites (req, res) {
            res.status(200).json(user);
         } catch(err){
             res.json(err)
-        } 
+        }
+    } 
+
+async function getAllUsersLectures(req, res) {
+    try {
+        const docs = await Lecture.find({ 'userId': req.userData._id })
+        const lectures = docs.map(doc => {
+            return {
+                id: doc._id,
+                imgUrl: doc.imgUrl,
+                title: doc.title,
+                author: doc.author,
+                defaultRating: doc.defaultRating,
+                oldPrice: doc.oldPrice,
+                newPrice: doc.newPrice,
+                videoUrl: doc.videoUrl,
+                description: doc.description
+            }
+        })
+        res.status(200).json(lectures);
+    } catch (err) {
+        res.json(err);
+
     }
+}
+
 
 function getUserFavouriteLectures(req, res){
     let favouriteLectures;
@@ -70,35 +95,7 @@ function getUserFavouriteLectures(req, res){
         res.json({favouriteLectures});
     });
 }
-    //     const user = await User.findById(req.UserData._id);
-    //     console.log(user);
    
-    // } catch (err) {
-    //     res.json(err);
-
-
-// async function getAllUsersLectures(req, res) {
-//     try {
-//         const foundLectures = await User.find({ 'userId': req.userData._id }).populate('lectures');
-//         const lectures = docs.map(doc => {
-//             return {
-//                 id: doc._id,
-//                 imgUrl: doc.imgUrl,
-//                 title: doc.title,
-//                 author: doc.author,
-//                 defaultRating: doc.defaultRating,
-//                 oldPrice: doc.oldPrice,
-//                 newPrice: doc.newPrice,
-//                 videoUrl: doc.videoUrl,
-//                 description: doc.description
-//             }
-//         })
-//         res.status(200).json(foundLectures);
-//     } catch (err) {
-//         res.json(err);
-//     }
-// };
-
 async function getOne(req, res) {
     try {
         const doc = await Lecture.findById(req.params.lectureid)
@@ -132,8 +129,6 @@ async function lectureCreate(req, res) {
             description: req.body.description,
             messages: req.body.messages,
             userId: req.userData._id,
-            oldPrice: req.body.oldPrice,
-            newPrice: req.body.newPrice
         })
         const lecture = await newLecture.save()
         res.status(201).json(lecture);
@@ -188,7 +183,8 @@ module.exports = {
     userAddFavourites,
     getOne,
     getUserFavouriteLectures,
+    getOne,
     lectureCreate,
     lectureUpdate,
     lectureRemove
-};
+}

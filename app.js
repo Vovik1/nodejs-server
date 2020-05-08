@@ -23,6 +23,8 @@ app.use('/api', (req, res, next) => {
   res.header('Access-Control-Expose-Headers', 'Access-Token, access-token');
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
 
+
+
   next();
 });
 

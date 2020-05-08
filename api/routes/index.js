@@ -11,6 +11,8 @@ const awsVideoController = require('../controllers/aws-video-controller');
 const categoryController = require('../controllers/category-controller');
 const reviewController = require('../controllers/review-controller');
 
+const userController = require('../controllers/user-controller');
+
 
 
 // reviews
@@ -21,7 +23,7 @@ router
 // categories
 router
     .route('/categories/all')
-    .get(categoryController.getAllCategories);
+    .get(authCheck, categoryController.getAllCategories);
 
 //aws-s3
 router
@@ -31,6 +33,11 @@ router
 router
     .route('/aws/upload-video')
     .post(authCheck, awsVideoController.uploadVideo);
+
+router
+    .route('/users/all')
+    .get(userController.getAllUsers);
+
 
 
 router.use('/lectures', lectureRouter);

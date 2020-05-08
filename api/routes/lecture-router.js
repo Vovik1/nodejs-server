@@ -8,16 +8,17 @@ const messagesController = require('../controllers/messages-controller');
 //lectures
 router
     .route('/')
-    // .get(authCheck, lectureController.getAllUsersLectures)
     .post(authCheck, lectureController.lectureCreate);
 
 router
     .route('/by_user')
     .get(authCheck, lectureController.getUserFavouriteLectures);
+
     
 router
     .route('/all')
     .get(lectureController.getAll)
+
 
 router
     .route('/:lectureid')
@@ -42,6 +43,7 @@ router
 // router
 //     .route('/bycategory/:categoryid')
 //     .get(authCheck, lectureController.getLecturesByCategory)
+
 
 // messages
 router
