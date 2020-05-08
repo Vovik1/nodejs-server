@@ -10,6 +10,8 @@ const awsController = require('../controllers/aws-controller');
 const categoryController = require('../controllers/category-controller');
 const reviewController = require('../controllers/review-controller');
 
+const userController = require('../controllers/user-controller');
+
 
 // reviews
 router
@@ -26,6 +28,10 @@ router
 router
     .route('/aws/upload-avatar')
     .post(authCheck, awsController.uploadAvatar);
+
+router
+    .route('/users/all')
+    .get(userController.getAllUsers);
 
 
 router.use('/lectures', lectureRouter);
