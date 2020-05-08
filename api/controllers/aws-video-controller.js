@@ -3,7 +3,6 @@ const AWS = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const mongoose = require('mongoose');
-const User = mongoose.model('User');
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -32,7 +31,7 @@ function checkFileType( file, cb ){
   if( mimetype && extname ){
     return cb( null, true );
   }else {
-    cb( 'Error: Images Only!' );
+    cb( 'Error: Video Only!' );
   }
 }
 
@@ -46,19 +45,10 @@ const uploadVideo = (req,res) => {
       res.json( 'Error: No File Selected' );
       } else {
         // If Success
-        const imageLocation = req.file.location;
-        const userId = req.userData._id;
-        console.log(imageLocation, userId)
-    //     const updatedUser = await User.findByIdAndUpdate(userId, {$set: { imageUrl: imageLocation }});
-    //     return res.status(200).json({updatedUser: {
-    //         _id: updatedUser._id,
-    //         name: updatedUser.name,
-    //         surName: updatedUser.surName,
-    //         email: updatedUser.email,
-    //         role: updatedUser.role,
-    //         imageUrl: imageLocation
-    //     }
-    //   });
+        const videoLocation = req.file.location;
+        return res.status(200).json({
+          videoUrl:videoLocation
+        })
       }
   })
 }

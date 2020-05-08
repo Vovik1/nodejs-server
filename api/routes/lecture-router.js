@@ -23,7 +23,7 @@ router
     .route('/:lectureid')
     .get(authCheck, lectureController.getOne)    
     .put(authCheck, lectureController.lectureUpdate)
-    .delete(authCheck, lectureController.lectureRemove);
+    .delete( lectureController.lectureRemove);
 
 router
     .route('/:lectureid/add_to_favs')
