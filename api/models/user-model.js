@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    favouriteLectures:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Lecture"
+    }],
     surName: String,
     hash:String,
     salt: String,
@@ -51,4 +55,4 @@ userSchema.methods.validatePassword = function(password){
 }
 
 
-const User = mongoose.model('User', userSchema);
+mongoose.model('User', userSchema);
