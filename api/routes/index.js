@@ -9,7 +9,6 @@ const editUserRouter = require('./edit-user-router');
 const awsController = require('../controllers/aws-controller');
 const categoryController = require('../controllers/category-controller');
 const reviewController = require('../controllers/review-controller');
-
 const userController = require('../controllers/user-controller');
 
 

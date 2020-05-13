@@ -5,7 +5,6 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
-
 passport.serializeUser((user, done) => {
     done(null, user);
 });
