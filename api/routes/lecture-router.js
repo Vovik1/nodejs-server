@@ -27,14 +27,13 @@ router
     .delete( lectureController.lectureRemove);
 
 router
-    .route('/:lectureid/add_to_favs')
-    .put(authCheck, lectureController.userAddFavourites);
+    .route('/:lectureid/fav_lectures')
+    .put(authCheck, lectureController.userAddFavourites)
+    .delete(authCheck, lectureController.userDeleteFavourites)
 
 router
     .route('/user/favourite')
     .get(authCheck, lectureController.getUserFavouriteLectures);
-
-
 
 router
     .route('/bycategory/:categoryid')

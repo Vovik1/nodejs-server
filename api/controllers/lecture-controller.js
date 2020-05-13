@@ -42,21 +42,33 @@ async function getLecturesByCategory(req, res) {
     }
 };
 
+async function userAddFavourites(req, res) {
+    try {
+        const lecture = await Lecture.findById(req.params.lectureid);
+        const user = await User.findByIdAndUpdate(req.userData._id, {
+            $addToSet: { favouriteLectures: lecture }
+        }, {
+            new: true
+        });
+        res.status(200).json(user);
+    } catch (err) {
+        res.json(err)
+    }
+}
 
+async function userDeleteFavourites(req, res) {
+    try {
+        const user = await User.findByIdAndUpdate(req.userData._id, {
+            $pull: { favouriteLectures: { $in: [ req.params.lectureid] } } 
+        }, {
+            new: true
+        });
+        res.status(204).json(null)
+    } catch (err) {
+        res.json(err)
+    }
+}
 
-async function userAddFavourites (req, res) {
-       try{
-           const lecture = await Lecture.findById(req.params.lectureid);
-           const user = await User.findByIdAndUpdate(req.userData._id,{
-               $push: {favouriteLectures: lecture}
-           }, {
-               new:true
-            });
-           res.status(200).json(user);
-        } catch(err){
-            res.json(err)
-        }
-    } 
 
 async function getAllUsersLectures(req, res) {
     try {
@@ -82,20 +94,20 @@ async function getAllUsersLectures(req, res) {
 }
 
 
-function getUserFavouriteLectures(req, res){
+function getUserFavouriteLectures(req, res) {
     let favouriteLectures;
     User.
-    findOne({email: req.userData.email}).
-    populate('favouriteLectures', ['title', 'author', 'imgUrl', 'description' ]).
-    exec(function(err, user){
-        if(err){
-            return res.status(404).json(err)
-        }
-        favouriteLectures = user.favouriteLectures; 
-        res.json({favouriteLectures});
-    });
+        findOne({ email: req.userData.email }).
+        populate('favouriteLectures', ['title', 'author', 'imgUrl', 'description']).
+        exec(function (err, user) {
+            if (err) {
+                return res.status(404).json(err)
+            }
+            favouriteLectures = user.favouriteLectures;
+            res.json({ favouriteLectures });
+        });
 }
-   
+
 async function getOne(req, res) {
     try {
         const doc = await Lecture.findById(req.params.lectureid)
@@ -142,28 +154,28 @@ function lectureUpdate(req, res) {
         return res.status(404).json({ "message": "Not found, lectureid is required" })
     }
     Lecture
-        .findById(req.params.lectureid) 
+        .findById(req.params.lectureid)
         .exec((err, lecture) => {
-            if(!lecture){
-                return res.json(404).status({"message": "lectureid not found"})
+            if (!lecture) {
+                return res.json(404).status({ "message": "lectureid not found" })
             } else if (err) {
-                return res.status(400).json(err) 
+                return res.status(400).json(err)
             }
             Object.assign(lecture, req.body)
-            lecture.save((err,lecture) => {
-                if (err){
+            lecture.save((err, lecture) => {
+                if (err) {
                     res.status(404).json(err)
                 } else {
                     res.status(200).json(lecture);
-                }  
+                }
             });
         })
-    }
+}
 
 
 function lectureRemove(req, res) {
-    const {lectureid} = req.params;
-    if(lectureid){
+    const { lectureid } = req.params;
+    if (lectureid) {
         Lecture
             .findByIdAndRemove(lectureid)
             .exec((err, lecture) => {
@@ -173,14 +185,15 @@ function lectureRemove(req, res) {
                 res.status(204).json(null)
             })
     } else {
-        res.status(404).json({"message":"No Location"})
-    }  
+        res.status(404).json({ "message": "No Location" })
+    }
 }
 
 module.exports = {
     getAll,
     getLecturesByCategory,
     userAddFavourites,
+    userDeleteFavourites,
     getOne,
     getUserFavouriteLectures,
     getOne,

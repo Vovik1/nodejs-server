@@ -7,12 +7,10 @@ const userRouter = require('./user-router');
 const editUserRouter = require('./edit-user-router');
 
 const awsController = require('../controllers/aws-controller');
-const awsVideoController = require('../controllers/aws-video-controller');
 const categoryController = require('../controllers/category-controller');
 const reviewController = require('../controllers/review-controller');
 
 const userController = require('../controllers/user-controller');
-
 
 
 // reviews
@@ -23,7 +21,7 @@ router
 // categories
 router
     .route('/categories/all')
-    .get(authCheck, categoryController.getAllCategories);
+    .get( categoryController.getAllCategories);
 
 //aws-s3
 router
@@ -32,8 +30,10 @@ router
 
 router
     .route('/aws/upload-video')
-    .post(authCheck, awsVideoController.uploadVideo);
+    .post(authCheck, awsController.uploadVideo)
+    .delete(authCheck, awsController.deleteFile);
 
+// users
 router
     .route('/users/all')
     .get(userController.getAllUsers);
@@ -43,4 +43,5 @@ router
 router.use('/lectures', lectureRouter);
 router.use('/user', userRouter);
 router.use('/edit', editUserRouter);
+
 module.exports = router;

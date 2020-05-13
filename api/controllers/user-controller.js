@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 async function getAllUsers(req, res) {
-    console.log(req.userData);
-    // if(req.userData.role !== "admin"){
-    //     res.status(401).json({message: "Only for admin"});
-    // }
     try {
         const docs = await User.find();
         const users = docs.map(doc => {
