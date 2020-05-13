@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 signUp = async (req, res) => {
-    if (!req.body.email || !req.body.password) return res.status(422).json({message: 'email and password are required'});
+    if (!req.body.email || !req.body.password) return res.status(422).json({message: 'Email and password are required'});
     try {
         const userExist = await User.findOne({email: req.body.email})
-        if (userExist) return res.status(422).json({message: 'User with this email is already exist'});
+        if (userExist) return res.status(422).json({email: 'User with this email is already exist'});
         const user = new User();
         user.email = req.body.email;
         user.name = req.body.name;
@@ -41,7 +41,7 @@ const signIn = (req, res) => {
                 role: user.role
             });
         } else {
-            res.status(401).json(info);
+            res.status(401).json({password:"Email or password is invalid"});
         }
         })(req, res);
 }

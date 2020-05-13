@@ -16,6 +16,7 @@ const init = server => {
 
         require('../controllers/webinars-controller')(socket);
 
+
     });
 
     app.io = io;
