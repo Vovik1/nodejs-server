@@ -10,8 +10,6 @@ const awsController = require('../controllers/aws-controller');
 const categoryController = require('../controllers/category-controller');
 const reviewController = require('../controllers/review-controller');
 
-
-
 // reviews
 router
     .route('/reviews')

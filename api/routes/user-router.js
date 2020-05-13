@@ -17,9 +17,8 @@ router.get('/google/callback',
             return res.status(500).json(err);
         }
 
-        if(req.user.hasOwnProperty(`token`)){
-            res.setHeader('Access-Token', req.user.token);
-        }
+        res.setHeader('Access-Token', req.user.token);
+
         res.status(200).json({
             _id: req.user._id,
             name: req.user.name,
@@ -40,7 +39,9 @@ router.get(`/facebook/callback`,
         if(req.err){
             return res.status(500).json(err);
         }
+
         res.setHeader('Access-Token', req.user.token);
+
         res.status(200).json({
             _id: req.user._id,
             name: req.user.name,
