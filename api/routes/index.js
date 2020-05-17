@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = new express.Router();
 const authCheck = require('../middleware/auth-check');
 const lectureRouter = require('./lecture-router');
@@ -12,30 +13,21 @@ const reviewController = require('../controllers/review-controller');
 const userController = require('../controllers/user-controller');
 
 // reviews
-router
-    .route('/reviews')
-    .get(reviewController.getReviews);
+router.route('/reviews').get(reviewController.getReviews);
 
 // categories
-router
-    .route('/categories/all')
-    .get( categoryController.getAllCategories);
+router.route('/categories/all').get(categoryController.getAllCategories);
 
-//aws-s3
-router
-    .route('/aws/upload-avatar')
-    .post(authCheck, awsController.uploadAvatar);
+// aws-s3
+router.route('/aws/upload-avatar').post(authCheck, awsController.uploadAvatar);
 
 router
-    .route('/aws/upload-video')
-    .post(authCheck, awsController.uploadVideo)
-    .delete(authCheck, awsController.deleteFile);
+  .route('/aws/upload-video')
+  .post(authCheck, awsController.uploadVideo)
+  .delete(authCheck, awsController.deleteFile);
 
 // users
-router
-    .route('/users/all')
-    .get(userController.getAllUsers);
-
+router.route('/users/all').get(userController.getAllUsers);
 
 router.use('/lectures', lectureRouter);
 router.use('/users', usersRouter);
