@@ -2,7 +2,7 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
-signUp = async (req, res) => {
+const signUp = async (req, res) => {
     if (!req.body.email || !req.body.password) return res.status(422).json({message: 'email and password are required'});
     try {
         const userExist = await User.findOne({email: req.body.email})
