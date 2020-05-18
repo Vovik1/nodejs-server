@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const User = mongoose.model('User');
 
 const updateName = async (req, res) => {
@@ -69,7 +70,7 @@ const updatePassword = async (req, res) => {
       .json({ message: 'Current email and password are required' });
   if (!req.body.newData.password)
     return res.status(422).json({ message: 'New password is required' });
-  if (req.body.newData.password == req.body.oldData.password)
+  if (req.body.newData.password === req.body.oldData.password)
     return res
       .status(422)
       .json({ message: 'New password can not be the same as old password' });

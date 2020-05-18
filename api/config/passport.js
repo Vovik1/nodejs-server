@@ -3,6 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const mongoose = require('mongoose');
+
 const User = mongoose.model('User');
 
 passport.serializeUser((user, done) => {
@@ -74,7 +75,7 @@ passport.use(
           user.surName = data.surName;
           user
             .save()
-            .then(() =>
+            .then((response) =>
               done(null, {
                 token: user.generateJwt(),
                 name: user.name,
@@ -125,7 +126,7 @@ passport.use(
           user.surName = '';
           user
             .save()
-            .then(() =>
+            .then((response) =>
               done(null, {
                 token: user.generateJwt(),
                 _id: user._id,

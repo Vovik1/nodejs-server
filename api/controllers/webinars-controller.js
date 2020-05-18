@@ -2,29 +2,32 @@ let activeUsers = [];
 let webinars = [];
 
 module.exports = (socket) => {
-  socket.on('new_user_joined', (userId) => {
+  socket.on('new_user_joined', (teacherId) => {
     const existingUser = activeUsers.includes(socket.id);
 
     if (!existingUser) {
       activeUsers.push(socket.id);
 
-      socket.emit('update-user-list', {
-        user: activeUsers.filter((existingUser) => existingUser !== userId),
-      });
+      socket.join(teacherId);
 
-      socket.broadcast.emit('update-user-list', {
+      socket.to(teacherId).emit('update-user-list', {
         id: socket.id,
       });
     }
   });
 
   socket.on('add_new_webinar', ({ webinarName, firstName, surName }) => {
+    socket.join(socket.id);
     webinars.push({
       webinarName,
       id: socket.id,
       firstName,
       surName,
     });
+  });
+
+  socket.on('new_comment', (to, data) => {
+    socket.to(to).emit('new_comment', data);
   });
 
   socket.on('stop_webinar', () => {

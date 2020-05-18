@@ -6,9 +6,8 @@ const cors = require(`cors`);
 require('./api/models/db');
 require('./api/config/passport');
 
-const apiRouter = require('./api/routes/index');
-
 const app = express();
+const apiRouter = require('./api/routes/index');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

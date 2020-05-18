@@ -30,7 +30,7 @@ const signUp = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
 
@@ -49,7 +49,7 @@ const signIn = (req, res) => {
         role: user.role,
       });
     } else {
-      res.status(401).json({ password: 'Email or password is invalid' });
+      res.status(401).json(info);
     }
   })(req, res);
 };
