@@ -1,24 +1,23 @@
-const socket_io = require('socket.io');
-const app = require('../../app');
+const socketIo = require("socket.io");
+const app = require("../../app");
+const webinarController = require("../controllers/webinars-controller");
 
-const init = server => {
-    const io = socket_io(server);
+const init = (server) => {
+  const io = socketIo(server);
 
-    io.on('connection', socket => {
-
-        socket.on('join_room', room_id => {
-            socket.join(room_id);
-        });
-
-        socket.on('Leave room', room_id => {
-            socket.leave(room_id);
-        });
-
-        require('../controllers/webinars-controller')(socket);
-
+  io.on("connection", (socket) => {
+    socket.on("join_room", (roomId) => {
+      socket.join(roomId);
     });
 
-    app.io = io;
-}
+    socket.on("Leave room", (roomId) => {
+      socket.leave(roomId);
+    });
 
-module.exports = {init};
+    webinarController(socket);
+  });
+
+  app.io = io;
+};
+
+module.exports = { init };
