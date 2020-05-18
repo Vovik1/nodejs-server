@@ -1,10 +1,10 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const FacebookStrategy = require("passport-facebook").Strategy;
-const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-const mongoose = require("mongoose");
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const mongoose = require('mongoose');
 
-const User = mongoose.model("User");
+const User = mongoose.model('User');
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -17,7 +17,7 @@ passport.deserializeUser((user, done) => {
 passport.use(
   new LocalStrategy(
     {
-      usernameField: "email",
+      usernameField: 'email',
     },
     (username, password, done) => {
       User.findOne({ email: username }, (err, user) => {
@@ -26,12 +26,12 @@ passport.use(
         }
         if (!user) {
           return done(null, false, {
-            message: "Incorrect username.",
+            message: 'Incorrect username.',
           });
         }
         if (!user.validatePassword(password)) {
           return done(null, false, {
-            message: "Incorrect password.",
+            message: 'Incorrect password.',
           });
         }
         return done(null, user);
@@ -46,7 +46,7 @@ passport.use(
       clientID: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
       callbackURL: process.env.FACEBOOK_CALLBACK_URL,
-      profileFields: ["email", "first_name", "last_name"],
+      profileFields: ['email', 'first_name', 'last_name'],
     },
     (accessToken, refreshToken, profile, done) => {
       const data = {
@@ -71,7 +71,7 @@ passport.use(
           const user = new User();
           user.email = data.email;
           user.name = data.name;
-          user.role = "student";
+          user.role = 'student';
           user.surName = data.surName;
           user
             .save()
@@ -122,8 +122,8 @@ passport.use(
           const user = new User();
           user.email = data.email;
           user.name = data.name;
-          user.role = "student";
-          user.surName = "";
+          user.role = 'student';
+          user.surName = '';
           user
             .save()
             .then((response) =>

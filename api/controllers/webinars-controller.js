@@ -2,7 +2,7 @@ let activeUsers = [];
 let webinars = [];
 
 module.exports = (socket) => {
-  socket.on("new_user_joined", (teacherId) => {
+  socket.on('new_user_joined', (teacherId) => {
     const existingUser = activeUsers.includes(socket.id);
 
     if (!existingUser) {
@@ -10,13 +10,13 @@ module.exports = (socket) => {
 
       socket.join(teacherId);
 
-      socket.to(teacherId).emit("update-user-list", {
+      socket.to(teacherId).emit('update-user-list', {
         id: socket.id,
       });
     }
   });
 
-  socket.on("add_new_webinar", ({ webinarName, firstName, surName }) => {
+  socket.on('add_new_webinar', ({ webinarName, firstName, surName }) => {
     socket.join(socket.id);
     webinars.push({
       webinarName,
@@ -26,44 +26,43 @@ module.exports = (socket) => {
     });
   });
 
-  socket.on("new_comment", (to, data) => {
-    socket.to(to).emit("new_comment", data);
+  socket.on('new_comment', (to, data) => {
+    socket.to(to).emit('new_comment', data);
   });
 
-  socket.on("stop_webinar", () => {
+  socket.on('stop_webinar', () => {
     webinars = webinars.filter((webinar) => webinar.id !== socket.id);
   });
 
-  socket.on("get_all_webinars", () => {
-    socket.emit("get_all_webinars", webinars);
+  socket.on('get_all_webinars', () => {
+    socket.emit('get_all_webinars', webinars);
   });
 
-  socket.on("make-offer", (data) => {
-    socket.to(data.to).emit("offer-made", {
+  socket.on('make-offer', (data) => {
+    socket.to(data.to).emit('offer-made', {
       offer: data.offer,
       socket: socket.id,
     });
   });
 
-  socket.on("make-answer", (data) => {
-    socket.to(data.to).emit("answer-made", {
+  socket.on('make-answer', (data) => {
+    socket.to(data.to).emit('answer-made', {
       socket: socket.id,
       answer: data.answer,
     });
   });
 
-  socket.on("candidate", (id, message) => {
-    socket.to(id).emit("candidate", socket.id, message);
+  socket.on('candidate', (id, message) => {
+    socket.to(id).emit('candidate', socket.id, message);
   });
 
-  socket.on("disconnect", () => {
+  socket.on('disconnect', () => {
     activeUsers = activeUsers.filter(
       (existingSocket) => existingSocket !== socket.id
     );
 
-    socket.broadcast.emit("remove-user", {
+    socket.broadcast.emit('remove-user', {
       id: socket.id,
     });
   });
 };
-
