@@ -41,7 +41,6 @@ router
 
 
 
-
 router.use('/lectures', lectureRouter);
 router.use('/users', usersRouter);
 router.use('/user', userRouter);
