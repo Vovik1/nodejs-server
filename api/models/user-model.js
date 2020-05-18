@@ -20,12 +20,11 @@ const userSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Lecture",
-    },
-  ],
-  surName: String,
-  hash: String,
-  salt: String,
-  imageUrl: String,
+    }
+    surName: String,
+    hash:String,
+    salt: String,
+    imageUrl:String
 });
 
 userSchema.methods.setPassword = function (password) {

@@ -21,3 +21,6 @@ const init = (server) => {
 };
 
 module.exports = { init };
+
+
+module.exports = {init};
