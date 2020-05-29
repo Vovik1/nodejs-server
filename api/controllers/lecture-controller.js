@@ -157,14 +157,14 @@ function lectureUpdate(req, res) {
 function lectureRemove(req, res) {
   const { lectureid } = req.params;
   if (lectureid) {
-    Lecture.findByIdAndRemove(lectureid).exec((err, lecture) => {
+    Lecture.findByIdAndRemove(lectureid).exec((err) => {
       if (err) {
         return res.status(404).json(err);
       }
-      return res.status(204).json(null);
+      return res.status(204).json({ message: 'Lecture successfully deleted' });
     });
   } else {
-    res.status(404).json({ message: 'No Location' });
+    res.status(404).json({ message: 'No Lecture' });
   }
 }
 
