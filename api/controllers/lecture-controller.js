@@ -162,6 +162,7 @@ function lectureRemove(req, res) {
         return res.status(404).json(err);
       }
       return res.status(200).json({ message: 'Lecture successfully deleted' });
+
     });
   } else {
     res.status(404).json({ message: 'No Lecture' });
