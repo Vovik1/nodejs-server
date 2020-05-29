@@ -1,55 +1,49 @@
 # NodeJS-Server
 
+## About the project
+The main goal of "StudyHard" project is to give people a possibility to increase their education level by studing hard at our website. It is a nice platform for students and lectors to exchange their experience throught the sets of lectures or even using live webinars. A user can easily join webinars, form the favourite lectures group. From the other side lector can easily create lectures and upload own videos attaching them to specific lecture.
+
+## Getting Started
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+1. Require to install 
+```
+NodeJS https://nodejs.org/
+```
+2. How to run 
+```
+npm install 
+npm run start_local
+```
+## Samples
 
 ### SignUp user with POST request
 ```
-https://glacial-chamber-22605.herokuapp.com/api/signup
+http://localhost:3030/api/user/signup
 ```
+![alt text](https://bucket-u-vovika-for-avatars.s3.eu-central-1.amazonaws.com/signup.png)
+
+Response:
+
+![alt text](https://bucket-u-vovika-for-avatars.s3.eu-central-1.amazonaws.com/signup_response.png)
 
 ### SignIn user with POST request
 ```
-https://glacial-chamber-22605.herokuapp.com/api/signin
+http://localhost:3030/api/user/signin
 ```
-Returned response is token
+![alt text](https://bucket-u-vovika-for-avatars.s3.eu-central-1.amazonaws.com/signin.png)
 
-### Get all lectures
- ```
-https://glacial-chamber-22605.herokuapp.com/api/lecture
-```
-### Post lecture
-```
-https://glacial-chamber-22605.herokuapp.com/api/lecture
+Response body:
 
-example: 
-async function postData(url = '', data = {}) {
-  // Default options are marked with *
-  const response = await fetch(url, {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json',
-       'Access-Token': <token-after-sign-in>
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    redirect: 'follow', // manual, *follow, error
-    referrerPolicy: 'no-referrer', // no-referrer, *client
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
-  });
-  return await response.json(); // parses JSON response into native JavaScript objects
-}
+![alt text](https://bucket-u-vovika-for-avatars.s3.eu-central-1.amazonaws.com/signin_response_body.png)
 
-postData('https://glacial-chamber-22605.herokuapp.com/api/lecture', 
-    {
-        title: "Learning React 2",
-        videoUrl: "rtsp://leart-react.com",
-	    description: "Best way to learn is watch videos",
-	    messages: "Some text here"
-    }
-    )
-  .then((data) => {
-    console.log(data); // JSON data parsed by `response.json()` call
-  });
-```
+Response headers:
 
+![alt text](https://bucket-u-vovika-for-avatars.s3.eu-central-1.amazonaws.com/signin_response_headers.png)
+
+ Use Access-Token in all future requests.
+
+## Authors
+
+* **LV-499.NodeJS** 
