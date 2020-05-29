@@ -28,14 +28,14 @@ const userSchema = new mongoose.Schema({
   imageUrl: String,
 });
 
-userSchema.methods.setPassword = (password) => {
+userSchema.methods.setPassword = function (password) {
   this.salt = crypto.randomBytes(16).toString('hex');
   this.hash = crypto
     .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
     .toString('hex');
 };
 
-userSchema.methods.generateJwt = () => {
+userSchema.methods.generateJwt = function () {
   const expiry = new Date();
   expiry.setDate(expiry.getDate() + 7);
 
@@ -52,7 +52,7 @@ userSchema.methods.generateJwt = () => {
   );
 };
 
-userSchema.methods.validatePassword = (password) => {
+userSchema.methods.validatePassword = function (password) {
   const hash = crypto
     .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
     .toString('hex');
