@@ -37,7 +37,7 @@ userSchema.methods.setPassword = function (password) {
 
 userSchema.methods.generateJwt = function() {
   const expiry = new Date();
-  expiry.setDate(expiry.getDate() + 7);
+  expiry.setDate(expiry.getDate() + 1);
 
   return jwt.sign(
     {
