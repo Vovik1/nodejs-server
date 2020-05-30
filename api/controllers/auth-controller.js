@@ -47,6 +47,7 @@ const signIn = (req, res) => {
         email: user.email,
         surName: user.surName,
         role: user.role,
+        imageUrl: user.imageUrl,
       });
     } else {
       res.status(401).json(info);
