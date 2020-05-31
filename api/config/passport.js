@@ -1,10 +1,10 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const FacebookStrategy = require("passport-facebook").Strategy;
-const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-const mongoose = require("mongoose");
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const mongoose = require('mongoose');
 
-const User = mongoose.model("User");
+const User = mongoose.model('User');
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -17,7 +17,7 @@ passport.deserializeUser((user, done) => {
 passport.use(
   new LocalStrategy(
     {
-      usernameField: "email",
+      usernameField: 'email',
     },
     (username, password, done) => {
       User.findOne({ email: username }, (err, user) => {
@@ -26,12 +26,12 @@ passport.use(
         }
         if (!user) {
           return done(null, false, {
-            message: "Incorrect username.",
+            message: 'Incorrect username.',
           });
         }
         if (!user.validatePassword(password)) {
           return done(null, false, {
-            message: "Incorrect password.",
+            message: 'Incorrect password.',
           });
         }
         return done(null, user);
@@ -46,7 +46,7 @@ passport.use(
       clientID: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
       callbackURL: process.env.FACEBOOK_CALLBACK_URL,
-      profileFields: ["email", "first_name", "last_name"],
+      profileFields: ['email', 'first_name', 'last_name'],
     },
     (accessToken, refreshToken, profile, done) => {
       const data = {
@@ -59,7 +59,7 @@ passport.use(
           return done(err);
         }
         if (user) {
-          done(null, {
+          return done(null, {
             token: user.generateJwt(),
             _id: user._id,
             name: user.name,
@@ -67,25 +67,27 @@ passport.use(
             email: user.email,
             role: user.role,
           });
-        } else {
-          const user = new User();
-          user.email = data.email;
-          user.name = data.name;
-          user.role = "student";
-          user.surName = data.surName;
-          user
-            .save()
-            .then((response) =>
-              done(null, {
-                token: user.generateJwt(),
-                name: user.name,
-                surName: user.surName,
-                email: user.email,
-                role: user.role,
-              })
-            )
-            .catch((err) => done(err));
         }
+        const newUser = new User();
+        newUser.email = data.email;
+        newUser.name = data.name;
+        newUser.role = 'student';
+        newUser.surName = data.surName;
+        newUser
+          .save()
+          .then(() => {
+            return done(null, {
+              token: newUser.generateJwt(),
+              name: newUser.name,
+              surName: newUser.surName,
+              email: newUser.email,
+              role: newUser.role,
+            });
+          })
+          .catch((e) => {
+            return done(e);
+          });
+        return null;
       });
     }
   )
@@ -110,7 +112,7 @@ passport.use(
           return done(err);
         }
         if (user) {
-          done(null, {
+          return done(null, {
             token: user.generateJwt(),
             _id: user._id,
             name: user.name,
@@ -118,26 +120,28 @@ passport.use(
             email: user.email,
             role: user.role,
           });
-        } else {
-          const user = new User();
-          user.email = data.email;
-          user.name = data.name;
-          user.role = "student";
-          user.surName = "";
-          user
-            .save()
-            .then((response) =>
-              done(null, {
-                token: user.generateJwt(),
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                surName: user.surName,
-              })
-            )
-            .catch((err) => done(err));
         }
+        const newUser = new User();
+        newUser.email = data.email;
+        newUser.name = data.name;
+        newUser.role = 'student';
+        newUser.surName = '';
+        newUser
+          .save()
+          .then(() => {
+            return done(null, {
+              token: newUser.generateJwt(),
+              _id: newUser._id,
+              name: newUser.name,
+              email: newUser.email,
+              role: newUser.role,
+              surName: newUser.surName,
+            });
+          })
+          .catch((e) => {
+            return done(e);
+          });
+        return null;
       });
     }
   )
