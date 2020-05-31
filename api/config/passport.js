@@ -59,7 +59,7 @@ passport.use(
           return done(err);
         }
         if (user) {
-          done(null, {
+          return done(null, {
             token: user.generateJwt(),
             _id: user._id,
             name: user.name,
@@ -67,25 +67,27 @@ passport.use(
             email: user.email,
             role: user.role,
           });
-        } else {
-          const user = new User();
-          user.email = data.email;
-          user.name = data.name;
-          user.role = 'student';
-          user.surName = data.surName;
-          user
-            .save()
-            .then((response) =>
-              done(null, {
-                token: user.generateJwt(),
-                name: user.name,
-                surName: user.surName,
-                email: user.email,
-                role: user.role,
-              })
-            )
-            .catch((err) => done(err));
         }
+        const newUser = new User();
+        newUser.email = data.email;
+        newUser.name = data.name;
+        newUser.role = 'student';
+        newUser.surName = data.surName;
+        newUser
+          .save()
+          .then(() => {
+            return done(null, {
+              token: newUser.generateJwt(),
+              name: newUser.name,
+              surName: newUser.surName,
+              email: newUser.email,
+              role: newUser.role,
+            });
+          })
+          .catch((e) => {
+            return done(e);
+          });
+        return null;
       });
     }
   )
@@ -110,7 +112,7 @@ passport.use(
           return done(err);
         }
         if (user) {
-          done(null, {
+          return done(null, {
             token: user.generateJwt(),
             _id: user._id,
             name: user.name,
@@ -118,26 +120,28 @@ passport.use(
             email: user.email,
             role: user.role,
           });
-        } else {
-          const user = new User();
-          user.email = data.email;
-          user.name = data.name;
-          user.role = 'student';
-          user.surName = '';
-          user
-            .save()
-            .then((response) =>
-              done(null, {
-                token: user.generateJwt(),
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                surName: user.surName,
-              })
-            )
-            .catch((err) => done(err));
         }
+        const newUser = new User();
+        newUser.email = data.email;
+        newUser.name = data.name;
+        newUser.role = 'student';
+        newUser.surName = '';
+        newUser
+          .save()
+          .then(() => {
+            return done(null, {
+              token: newUser.generateJwt(),
+              _id: newUser._id,
+              name: newUser.name,
+              email: newUser.email,
+              role: newUser.role,
+              surName: newUser.surName,
+            });
+          })
+          .catch((e) => {
+            return done(e);
+          });
+        return null;
       });
     }
   )

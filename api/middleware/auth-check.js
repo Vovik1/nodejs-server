@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 function generateNewJWT (user){
     const expiry = new Date();
-    expiry.setDate(expiry.getDate() + 1);
+    expiry.setDate(expiry.getHours() + 1);
 
     return jwt.sign({
         _id: user._id,
@@ -25,3 +25,4 @@ module.exports = (req, res, next) => {
         });
     } else res.sendStatus(401);
 };
+

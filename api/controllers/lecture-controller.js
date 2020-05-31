@@ -63,7 +63,7 @@ async function userAddFavourites(req, res) {
 
 async function userDeleteFavourites(req, res) {
   try {
-    await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       req.userData._id,
       {
         $pull: { favouriteLectures: { $in: [req.params.lectureid] } },
@@ -78,16 +78,38 @@ async function userDeleteFavourites(req, res) {
   }
 }
 
+async function getAllUsersLectures(req, res) {
+  try {
+    const docs = await Lecture.find({ userId: req.userData._id });
+    const lectures = docs.map((doc) => {
+      return {
+        id: doc._id,
+        imgUrl: doc.imgUrl,
+        title: doc.title,
+        author: doc.author,
+        defaultRating: doc.defaultRating,
+        oldPrice: doc.oldPrice,
+        newPrice: doc.newPrice,
+        videoUrl: doc.videoUrl,
+        description: doc.description,
+      };
+    });
+    res.status(200).json(lectures);
+  } catch (err) {
+    res.json(err);
+  }
+}
+
 function getUserFavouriteLectures(req, res) {
   let favouriteLectures;
   User.findOne({ email: req.userData.email })
     .populate('favouriteLectures', ['title', 'author', 'imgUrl', 'description'])
-    .exec((err, user) => {
+    .exec(function (err, user) {
       if (err) {
         return res.status(404).json(err);
       }
       favouriteLectures = user.favouriteLectures;
-      return res.json({ favouriteLectures });
+      res.json({ favouriteLectures });
     });
 }
 
@@ -107,9 +129,9 @@ async function getOne(req, res) {
       description: doc.description,
       messages: doc.messages,
     };
-    return res.status(200).json(post);
+    res.status(200).json(post);
   } catch (err) {
-    return res.status(500).json(err);
+    res.status(500).json(err);
   }
 }
 
@@ -137,19 +159,20 @@ function lectureUpdate(req, res) {
       .status(404)
       .json({ message: 'Not found, lectureid is required' });
   }
-  Lecture.findById(req.params.lectureid).exec((err, lec) => {
-    if (!lec) {
+  Lecture.findById(req.params.lectureid).exec((err, lecture) => {
+    if (!lecture) {
       return res.json(404).status({ message: 'lectureid not found' });
     }
     if (err) {
       return res.status(400).json(err);
     }
-    Object.assign(lec, req.body);
-    lec.save((error, lecture) => {
-      if (error) {
-        return res.status(404).json(err);
+    Object.assign(lecture, req.body);
+    lecture.save((err, lecture) => {
+      if (err) {
+        res.status(404).json(err);
+      } else {
+        res.status(200).json(lecture);
       }
-      return res.status(200).json(lecture);
     });
   });
 }
@@ -157,15 +180,14 @@ function lectureUpdate(req, res) {
 function lectureRemove(req, res) {
   const { lectureid } = req.params;
   if (lectureid) {
-    Lecture.findByIdAndRemove(lectureid).exec((err) => {
+    Lecture.findByIdAndRemove(lectureid).exec((err, lecture) => {
       if (err) {
         return res.status(404).json(err);
       }
-      return res.status(200).json({ message: 'Lecture successfully deleted' });
-
+      res.status(204).json(null);
     });
   } else {
-    res.status(404).json({ message: 'No Lecture' });
+    res.status(404).json({ message: 'No Location' });
   }
 }
 
@@ -176,6 +198,7 @@ module.exports = {
   userDeleteFavourites,
   getOne,
   getUserFavouriteLectures,
+  getOne,
   lectureCreate,
   lectureUpdate,
   lectureRemove,
