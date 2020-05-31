@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
   favouriteLectures: [
     {
       type: mongoose.Schema.Types.ObjectId,
+<<<<<<< HEAD
       ref: 'Lecture',
     },
   ],
@@ -26,6 +27,14 @@ const userSchema = new mongoose.Schema({
   hash: String,
   salt: String,
   imageUrl: String,
+=======
+      ref: "Lecture",
+    }
+    surName: String,
+    hash:String,
+    salt: String,
+    imageUrl:String
+>>>>>>> efd448b2ef2eb2bdf2aabe04794e134e11105e81
 });
 
 function setPassword(password) {
