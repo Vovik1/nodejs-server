@@ -17,7 +17,7 @@ const updateName = async (req, res) => {
     user.name = req.body.newData.first_name;
     user.surName = req.body.newData.surName;
     const response = await user.save();
-    res.status(200).json({
+    return res.status(200).json({
       message: 'user updated',
       data: {
         email: response.email,
@@ -27,7 +27,7 @@ const updateName = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
 
@@ -49,7 +49,7 @@ const updateEmail = async (req, res) => {
     }
     user.email = req.body.newData.email;
     const response = await user.save();
-    res.status(200).json({
+    return res.status(200).json({
       message: 'user updated',
       data: {
         email: response.email,
@@ -59,7 +59,7 @@ const updateEmail = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
 
@@ -83,8 +83,8 @@ const updatePassword = async (req, res) => {
       return res.status(422).json({ message: 'Incorrect current password' });
     }
     user.setPassword(req.body.newData.password);
-    const resposne = user.save();
-    res.status(200).json({
+    user.save();
+    return res.status(200).json({
       message: 'User updated',
       data: {
         email: user.email,
@@ -94,7 +94,7 @@ const updatePassword = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
 

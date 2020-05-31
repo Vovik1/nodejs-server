@@ -1,41 +1,61 @@
-let activeUsers = [];
-let webinars = [];
+const webinars = {};
 
 module.exports = (socket) => {
-  socket.on('new_user_joined', (teacherId) => {
-    const existingUser = activeUsers.includes(socket.id);
+  socket.on('new_user_joined', ({ lectureId, userId, userName, imageUrl }) => {
+    if (webinars[lectureId] !== undefined) {
+      if (webinars[lectureId].activeUsers[userId] === undefined) {
+        webinars[lectureId].activeUsers[userId] = { userId, tabs: 1 };
+        webinars[lectureId].usersOnline += 1;
+        socket.broadcast.emit('update_online_users', {
+          id: lectureId,
+          usersOnline: webinars[lectureId].usersOnline,
+        });
+      } else {
+        webinars[lectureId].activeUsers[userId].tabs += 1;
+      }
 
-    if (!existingUser) {
-      activeUsers.push(socket.id);
+      socket.join(lectureId);
 
-      socket.join(teacherId);
-
-      socket.to(teacherId).emit('update-user-list', {
-        id: socket.id,
+      socket.to(lectureId).emit('update-user-list', {
+        id: userId,
+        userName,
+        imageUrl,
+        socketId: socket.id,
       });
+
+      socket
+        .to(lectureId)
+        .emit('receive_all_comments', { socketId: socket.id });
     }
   });
 
   socket.on('add_new_webinar', ({ webinarName, firstName, surName }) => {
     socket.join(socket.id);
-    webinars.push({
+    webinars[socket.id] = {
       webinarName,
+      usersOnline: 0,
       id: socket.id,
       firstName,
       surName,
-    });
+      activeUsers: [],
+    };
   });
 
   socket.on('new_comment', (to, data) => {
     socket.to(to).emit('new_comment', data);
   });
 
+  socket.on('send_all_comments', ({ to, comments }) => {
+    socket.to(to).emit('get_all_comments', comments);
+  });
+
   socket.on('stop_webinar', () => {
-    webinars = webinars.filter((webinar) => webinar.id !== socket.id);
+    socket.to(socket.id).emit('webinar_stoped');
+    delete webinars[socket.id];
   });
 
   socket.on('get_all_webinars', () => {
-    socket.emit('get_all_webinars', webinars);
+    socket.emit('get_all_webinars', Object.values(webinars));
   });
 
   socket.on('make-offer', (data) => {
@@ -56,13 +76,22 @@ module.exports = (socket) => {
     socket.to(id).emit('candidate', socket.id, message);
   });
 
-  socket.on('disconnect', () => {
-    activeUsers = activeUsers.filter(
-      (existingSocket) => existingSocket !== socket.id
-    );
-
-    socket.broadcast.emit('remove-user', {
-      id: socket.id,
-    });
+  socket.on('disconnect_user', ({ userId, lectureId }) => {
+    if (webinars[lectureId] !== undefined) {
+      if (webinars[lectureId].activeUsers[userId].tabs > 1) {
+        webinars[lectureId].activeUsers[userId].tabs -= 1;
+      } else {
+        delete webinars[lectureId].activeUsers[userId];
+        webinars[lectureId].usersOnline -= 1;
+        socket.broadcast.emit('update_online_users', {
+          id: lectureId,
+          usersOnline: webinars[lectureId].usersOnline,
+        });
+        socket.to(lectureId).emit('remove-user', {
+          id: userId,
+        });
+      }
+      socket.leave(lectureId);
+    }
   });
 };

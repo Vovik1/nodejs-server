@@ -13,24 +13,26 @@ router.get(
   passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
+function googleFacebookCallback(req, res) {
+  if (req.err) {
+    return res.status(500).json(req.err);
+  }
+
+  res.setHeader('Access-Token', req.user.token);
+
+  return res.status(200).json({
+    _id: req.user._id,
+    name: req.user.name,
+    surName: req.user.surName,
+    email: req.user.email,
+    role: req.user.role,
+  });
+}
+
 router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
-  (req, res) => {
-    if (req.err) {
-      return res.status(500).json(err);
-    }
-
-    res.setHeader('Access-Token', req.user.token);
-
-    res.status(200).json({
-      _id: req.user._id,
-      name: req.user.name,
-      surName: req.user.surName,
-      email: req.user.email,
-      role: req.user.role,
-    });
-  }
+  googleFacebookCallback
 );
 
 router.get(
@@ -43,21 +45,7 @@ router.get(
   passport.authenticate('facebook', {
     failureRedirect: '/',
   }),
-  (req, res) => {
-    if (req.err) {
-      return res.status(500).json(err);
-    }
-
-    res.setHeader('Access-Token', req.user.token);
-
-    res.status(200).json({
-      _id: req.user._id,
-      name: req.user.name,
-      surName: req.user.surName,
-      email: req.user.email,
-      role: req.user.role,
-    });
-  }
+  googleFacebookCallback
 );
 
 module.exports = router;
