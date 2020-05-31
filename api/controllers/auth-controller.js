@@ -19,7 +19,7 @@ const signUp = async (req, res) => {
     user.surName = '';
     user.setPassword(req.body.password);
     const response = await user.save();
-    res.status(201).json({
+    return res.status(201).json({
       message: 'user created',
       user: {
         _id: response._id,
@@ -27,6 +27,7 @@ const signUp = async (req, res) => {
         surName: response.surName,
         email: response.email,
         role: response.role,
+        imageUrl: '',
       },
     });
   } catch (err) {
@@ -41,7 +42,7 @@ const signIn = (req, res) => {
     if (err) return res.status(500).json(err);
     if (user) {
       res.setHeader('Access-Token', user.generateJwt());
-      res.status(200).json({
+      return res.status(200).json({
         _id: user._id,
         name: user.name,
         email: user.email,
@@ -49,10 +50,10 @@ const signIn = (req, res) => {
         role: user.role,
         imageUrl: user.imageUrl,
       });
-    } else {
-      res.status(401).json(info);
     }
+    return res.status(401).json(info);
   })(req, res);
+  return null;
 };
 
 module.exports = { signUp, signIn };
