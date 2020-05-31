@@ -15,6 +15,8 @@ async function getAll(req, res) {
         defaultRating: doc.defaultRating,
         videoUrl: doc.videoUrl,
         description: doc.description,
+        categoryId: doc.categoryId,
+        categoryTitle: doc.categoryTitle
       };
     });
     res.status(200).json(lectures);
@@ -35,6 +37,8 @@ async function getLecturesByCategory(req, res) {
         defaultRating: doc.defaultRating,
         videoUrl: doc.videoUrl,
         description: doc.description,
+        categoryId: doc.categoryId,
+        categoryTitle: doc.categoryTitle
       };
     });
     res.status(200).json(lectures);
