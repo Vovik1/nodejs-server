@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const awsController = require('./aws-controller');
 
 const Lecture = mongoose.model('Lecture');
 const User = mongoose.model('User');
@@ -158,13 +159,16 @@ function lectureUpdate(req, res) {
 
 function lectureRemove(req, res) {
   const { lectureid } = req.params;
+  const { videoUrl } = req.body;
+  if (videoUrl.includes(process.env.AWS_BUCKET)) {
+    awsController.deleteFile(req, res);
+  }
   if (lectureid) {
     Lecture.findByIdAndRemove(lectureid).exec((err) => {
       if (err) {
         return res.status(404).json(err);
       }
       return res.status(200).json({ message: 'Lecture successfully deleted' });
-
     });
   } else {
     res.status(404).json({ message: 'No Lecture' });

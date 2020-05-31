@@ -83,13 +83,15 @@ const uploadVideo = (req, res) => {
 };
 
 const deleteFile = (req, res) => {
-  if (!req.body.file) {
+  const { videoUrl } = req.body;
+  if (!videoUrl) {
     res.json('Error: No File Selected');
   }
-  const keyFile = req.body.file;
+  const slashIndex = videoUrl.lastIndexOf('/');
+  const fileName = videoUrl.slice(slashIndex + 1, videoUrl.length);
   const params = {
     Bucket: process.env.AWS_BUCKET,
-    Key: keyFile,
+    Key: fileName,
   };
 
   s3.deleteObject(params, (err, data) => {
