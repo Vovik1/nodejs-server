@@ -1,44 +1,55 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# NodeJS-Server
 
-## Available Scripts
 
-In the project directory, you can run:
+### SignUp user with POST request
+```
+https://glacial-chamber-22605.herokuapp.com/api/signup
+```
 
-### `npm start`
+### SignIn user with POST request
+```
+https://glacial-chamber-22605.herokuapp.com/api/signin
+```
+Returned response is token
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Get all lectures
+ ```
+https://glacial-chamber-22605.herokuapp.com/api/lecture
+```
+### Post lecture
+```
+https://glacial-chamber-22605.herokuapp.com/api/lecture
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+example: 
+async function postData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json',
+       'Access-Token': <token-after-sign-in>
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *client
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return await response.json(); // parses JSON response into native JavaScript objects
+}
 
-### `npm test`
+postData('https://glacial-chamber-22605.herokuapp.com/api/lecture', 
+    {
+        title: "Learning React 2",
+        videoUrl: "rtsp://leart-react.com",
+	    description: "Best way to learn is watch videos",
+	    messages: "Some text here"
+    }
+    )
+  .then((data) => {
+    console.log(data); // JSON data parsed by `response.json()` call
+  });
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
