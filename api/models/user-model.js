@@ -28,17 +28,16 @@ const userSchema = new mongoose.Schema({
   imageUrl: String,
 });
 
-function setPassword(password) {
+userSchema.methods.setPassword = function (password) {
   this.salt = crypto.randomBytes(16).toString('hex');
   this.hash = crypto
     .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
     .toString('hex');
-}
+};
 
-function generateToken() {
+userSchema.methods.generateJwt = function () {
   const expiry = new Date();
-  expiry.setDate(expiry.getHours() + 1);
-
+  expiry.setDate(expiry.getDate() + 7);
 
   return jwt.sign(
     {
@@ -51,19 +50,14 @@ function generateToken() {
     },
     process.env.JWT_KEY
   );
-}
+};
 
-function validatePassword(password) {
+userSchema.methods.validatePassword = function (password) {
   const hash = crypto
     .pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
     .toString('hex');
   return this.hash === hash;
-}
-
-userSchema.methods.setPassword = setPassword;
-
-userSchema.methods.generateJwt = generateToken;
-
-userSchema.methods.validatePassword = validatePassword;
+};
 
 mongoose.model('User', userSchema);
+
