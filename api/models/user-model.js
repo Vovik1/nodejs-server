@@ -39,6 +39,7 @@ function generateToken() {
   const expiry = new Date();
   expiry.setDate(expiry.getHours() + 1);
 
+
   return jwt.sign(
     {
       _id: this._id,
