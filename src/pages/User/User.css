@@ -1,0 +1,135 @@
+.header-page {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.inputs, .edit-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+  
+.edit-content {
+    width: 60%;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.inputs {
+    width: 60%;
+}
+
+form.form {
+    width: 100%;
+ }
+
+ .save-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+ }
+  
+.edit-menu-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+}
+  
+.edit-menu-item {
+    margin: 0 auto;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+  
+[type="file"] {
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+  
+[type="file"] + label {
+    border: 2px solid #db2828;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: inherit;
+    padding: 1rem 25px;
+    margin-bottom: 50px;
+}
+  
+[type="file"] + label:hover {
+    cursor: pointer;
+}
+  
+.edit-profile {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 50px;
+}
+  
+.title-edit {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 30px;
+}
+  
+.description-edit {
+    font-size: 15px;
+    margin: 15px 0 30px 0;
+}
+ 
+.imgPreview {
+    display: flex;
+    justify-content: center;
+    margin: 5px 15px;
+    height: 200px;
+    width: 60%;
+    border: 1px solid gray;
+}
+
+.img-template {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.imgPreview >  img {
+    width: 200px;
+    height: 200px;
+    padding: 20px;
+}
+
+.vertical.menu {
+    margin: 0;
+}
+
+.ui.negative.message, .ui.success.message {
+    margin-top: 20px;
+}
+
+ .css-1dkwqii  {
+    margin-bottom: 80px !important;
+ }
+
+ .crop-modal {
+    width: 95%;
+    height: 95%;
+}  
+
+#cropper-window {
+    background-color: gray;
+    opacity: 10%;
+    z-index: 100;
+} 
+
+.crop-button {
+    position: absolute;
+    right: 30px;
+}

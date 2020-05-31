@@ -1,0 +1,40 @@
+.title{
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.47em;
+    color: #505763;
+}
+
+.flexCategories{
+    width: 100%;   
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding-top: 32px;
+}
+
+.container{
+    padding: 28px 30px;
+    width: 50%;
+}
+.container:nth-of-type(1){
+    border-right: 1px solid #dedfe0;
+}
+
+.textCont{
+    max-width: 400px;
+    text-align: center;
+}
+
+.text{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5em;
+    padding-top: 3px;
+}
+
+#button{
+    margin-top: 15px;
+    width: 194px;
+}

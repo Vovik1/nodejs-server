@@ -1,0 +1,37 @@
+.background{
+    height: auto;
+    padding: 26px 0px;
+    background: rgb(36,0,27);
+    background: linear-gradient(90deg, rgba(36,0,27,0.3169642857142857) 0%, rgba(86,9,121,0.6446953781512605) 39%, rgba(255,0,129,1) 100%);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+}
+
+.title{
+    margin-bottom: 0;
+}
+#block768{
+    display: none;
+}
+
+@media screen and (max-width:1200px) {
+    .title{
+        font-size: 16px;
+    }
+    #mainBlock{
+        display: none;
+    }
+    #block768{
+        display: block;
+    }
+    
+}

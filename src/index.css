@@ -1,0 +1,18 @@
+.App {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.ui.search>.results{
+    overflow: scroll;
+    max-height: 500px;
+    width: 300px
+}
+.mainContent{
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+#footer__link{
+    color: black !important;
+}

@@ -1,0 +1,91 @@
+.cardsFlex {
+    display: flex !important;
+    padding-left: 23px;
+    width: 770px;
+}
+
+#cards {
+    width: 220px;
+    height: 272px;
+    position: relative;
+}
+
+.wrapperCards {
+    width: 1200px !important;
+    box-shadow: none !important;
+    margin: 10px 0 0 30px !important;
+    outline: none;
+}
+
+#headerTitle {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.836);
+    height: 40px;
+    overflow: hidden;
+}
+
+.oldPrice {
+    font-size: 13px;
+    text-decoration: line-through;
+}
+
+.newPrice {
+    color: rgba(0, 0, 0, 0.836);
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+#arrowRight,
+#arrowLeft {
+    position: absolute;
+    font-size: 40px;
+    background-color: white;
+    color: rgb(150, 0, 75);
+    z-index: 10;
+}
+
+#arrowLeft {
+    display: none;
+    top: 135px;
+    left: -33px;
+}
+
+#arrowRight {
+    top: 135px;
+    right: -8px;
+}
+
+#content {
+    margin: 15px 0;
+    border-top: 0;
+}
+
+.slider_2 {
+    display: none !important;
+}
+
+@media screen and (max-width:1440px) {
+    .slider_2 {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width:1200px) {
+    .slider_2 {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .slider_1 {
+        display: none !important;
+    }
+
+    .slider_2 {
+        display: block !important;
+    }
+
+    .cardsFlex {
+        width: 100%;
+    }
+}

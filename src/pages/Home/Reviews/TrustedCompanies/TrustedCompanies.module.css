@@ -1,0 +1,32 @@
+.title {
+    padding-top: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.33em;
+    color: #29303b;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.flexCategories {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding-top: 32px;
+}
+
+.logo {
+    margin: 0 32px 8px;
+}
+
+.image {
+    height: 30px;
+}
+
+@media screen and (max-width:768px) {
+    .image {
+        height: 24px;
+    }
+}

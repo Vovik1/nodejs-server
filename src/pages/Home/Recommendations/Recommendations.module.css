@@ -1,0 +1,37 @@
+.backgroundThinLine{
+    margin-top: 30px;
+    height: 20px;
+    background: rgb(36,0,27);
+    background: linear-gradient(90deg, rgba(36,0,27,0.3169642857142857) 0%, rgba(86,9,121,0.6446953781512605) 39%, rgba(255,0,129,1) 100%);
+}
+
+.backgroundThickLine{
+    align-items: center;
+    background-color: #29303b;
+    color: #f7f8fa;
+    display: flex;
+    flex-direction: column;
+    height: 360px;
+    text-align: center;
+    padding-top: 120px;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title{
+    margin-bottom: 0;
+}
+
+.title{
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.text{
+    font-size: 17px;
+    margin: 15px 0 15px 0;
+}

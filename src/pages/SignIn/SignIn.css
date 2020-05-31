@@ -1,0 +1,46 @@
+.modalContentIn {
+    align-self: center;
+    margin: 40px 0;
+    border: 1px solid #03c0f9;
+    background-color: white;
+    width: 400px;
+    height: auto;
+    padding: 20px;
+    border-radius: 5px;
+}
+.headerPopIn{
+    display: flex;
+    justify-content: space-between;
+}
+
+.fieldsIn{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.buttonsSignIn{
+    height: 50px;
+}
+.inpAreaIn{
+    grid-template-columns: 99%;
+    margin-top: 20px;
+    display: grid;
+    grid-auto-rows: 50px;
+    grid-gap: 10px;
+}
+.logBtnIn{
+    margin-top: 10px;
+    display: grid;
+}
+.changeAccIn{
+    margin-top: 20px;
+}
+.forgotPassword{
+    text-align: center;
+}
+.newAcc{
+    text-align: center;
+}
+.logText{
+    color: #000;
+}
