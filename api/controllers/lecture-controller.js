@@ -166,7 +166,7 @@ function lectureRemove(req, res) {
       if (err) {
         return res.status(404).json(err);
       }
-      res.status(200).json({ message: 'Lecture successfully deleted!' });
+      res.status(204).json(null);
     });
   } else {
     res.status(404).json({ message: 'No Location' });
