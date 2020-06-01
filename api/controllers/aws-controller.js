@@ -11,6 +11,16 @@ const s3 = new AWS.S3({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
+function checkFileType(file, cb) {
+  const filetypes = /jpeg|jpg|png|gif|mp4/;
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = filetypes.test(file.mimetype);
+  if (mimetype && extname) {
+    return cb(null, true);
+  }
+  return cb('Error: Video or images only!');
+}
+
 function selectMulterConfig(fieldname) {
   const multerConfig = multer({
     storage: multerS3({
@@ -21,22 +31,12 @@ function selectMulterConfig(fieldname) {
         cb(null, file.originalname);
       },
     }),
-    fileFilter(req, file, cb) {
+    fileFilter: (req, file, cb) => {
       checkFileType(file, cb);
     },
   }).single(fieldname); // 'avatarImage','lectureVideo'
 
   return multerConfig;
-}
-
-function checkFileType(file, cb) {
-  const filetypes = /jpeg|jpg|png|gif|mp4/;
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = filetypes.test(file.mimetype);
-  if (mimetype && extname) {
-    return cb(null, true);
-  }
-  cb('Error: Video or images only!');
 }
 
 const uploadAvatar = (req, res) => {
@@ -46,41 +46,39 @@ const uploadAvatar = (req, res) => {
     }
     if (req.file === undefined) {
       res.json('Error: No File Selected');
-    } else {
-      // If Success
-      const imageLocation = req.file.location;
-      const userId = req.userData._id;
-      const updatedUser = await User.findByIdAndUpdate(userId, {
-        $set: { imageUrl: imageLocation },
-      });
-      return res.status(200).json({
-        updatedUser: {
-          _id: updatedUser._id,
-          name: updatedUser.name,
-          surName: updatedUser.surName,
-          email: updatedUser.email,
-          role: updatedUser.role,
-          imageUrl: imageLocation,
-        },
-      });
     }
+    // If Success
+    const imageLocation = req.file.location;
+    const userId = req.userData._id;
+    const updatedUser = await User.findByIdAndUpdate(userId, {
+      $set: { imageUrl: imageLocation },
+    });
+    return res.status(200).json({
+      updatedUser: {
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        surName: updatedUser.surName,
+        email: updatedUser.email,
+        role: updatedUser.role,
+        imageUrl: imageLocation,
+      },
+    });
   });
 };
 
 const uploadVideo = (req, res) => {
   selectMulterConfig('lectureVideo')(req, res, async (error) => {
     if (error) {
-      return res.status(422).json({ error });
+      return res.status(422).json({ error: 'Suppose to be images and videos' });
     }
     if (req.file === undefined) {
-      res.json('Error: No File Selected');
-    } else {
-      // If Success
-      const videoLocation = req.file.location;
-      return res.status(200).json({
-        videoUrl: videoLocation,
-      });
+      return res.json('Error: No File Selected');
     }
+    // If Success
+    const videoLocation = req.file.location;
+    return res.status(200).json({
+      videoUrl: videoLocation,
+    });
   });
 };
 
@@ -94,7 +92,7 @@ const deleteFile = (req, res) => {
     Key: keyFile,
   };
 
-  s3.deleteObject(params, function (err, data) {
+  s3.deleteObject(params, (err, data) => {
     if (data) {
       res.status(204).json(null);
     } else {

@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = new express.Router();
 const authCheck = require('../middleware/auth-check');
 const lectureRouter = require('./lecture-router');
@@ -29,7 +30,7 @@ router
 router.route('/users/all').get(userController.getAllUsers);
 
 router.use('/lectures', lectureRouter);
-router.use('/users', usersRouter)
+router.use('/users', usersRouter);
 router.use('/user', userRouter);
 router.use('/edit', editUserRouter);
 

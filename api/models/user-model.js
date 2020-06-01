@@ -60,4 +60,3 @@ userSchema.methods.validatePassword = function (password) {
 };
 
 mongoose.model('User', userSchema);
-
