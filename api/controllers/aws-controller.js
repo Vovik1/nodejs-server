@@ -27,7 +27,7 @@ function selectMulterConfig(fieldname) {
       s3,
       bucket: process.env.AWS_BUCKET,
       acl: 'public-read',
-      key: (req, file, cb) => {
+      key(req, file, cb) {
         cb(null, file.originalname);
       },
     }),
