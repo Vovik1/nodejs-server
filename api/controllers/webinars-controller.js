@@ -2,6 +2,7 @@ const webinars = {};
 
 module.exports = (socket) => {
   socket.on('new_user_joined', ({ lectureId, userId, userName, imageUrl }) => {
+    if (webinars[lectureId] !== undefined) {
       if (webinars[lectureId].activeUsers[userId] === undefined) {
         webinars[lectureId].activeUsers[userId] = { userId, tabs: 1 };
         webinars[lectureId].usersOnline += 1;
@@ -25,6 +26,7 @@ module.exports = (socket) => {
       socket
         .to(lectureId)
         .emit('receive_all_comments', { socketId: socket.id });
+    }
   });
 
   socket.on('add_new_webinar', ({ webinarName, firstName, surName }) => {
