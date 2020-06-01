@@ -35,7 +35,7 @@ userSchema.methods.setPassword = function (password) {
     .toString('hex');
 };
 
-userSchema.methods.generateJwt = function() {
+userSchema.methods.generateJwt = function () {
   const expiry = new Date();
   expiry.setDate(expiry.getDate() + 7);
 

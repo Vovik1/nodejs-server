@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
+  console.log(req.headers['access-token']);
   if (req.headers['access-token']) {
     jwt.verify(
       req.headers['access-token'],
