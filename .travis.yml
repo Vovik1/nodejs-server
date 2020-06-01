@@ -12,7 +12,6 @@ notifications:
   email: false
 
 deploy:
-  provider: heroku:git
-  api_key: 10a38ab9-f3ef-48bc-9b79-4e9de24114f7
+  provider: heroku 
   edge: true # opt in to dpl v2
   app: glacial-chamber-22605

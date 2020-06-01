@@ -1,63 +1,51 @@
-const express = require("express");
-const passport = require("passport");
+const express = require('express');
+const passport = require('passport');
 
 const router = new express.Router();
 
-const authController = require("../controllers/auth-controller");
+const authController = require('../controllers/auth-controller');
 
-router.post("/signup", authController.signUp);
-router.post("/signin", authController.signIn);
+router.post('/signup', authController.signUp);
+router.post('/signin', authController.signIn);
 
 router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  '/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
-router.get(
-  "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
-  (req, res) => {
-    if (req.err) {
-      return res.status(500).json(err);
-    }
-
-    res.setHeader("Access-Token", req.user.token);
-
-    res.status(200).json({
-      _id: req.user._id,
-      name: req.user.name,
-      surName: req.user.surName,
-      email: req.user.email,
-      role: req.user.role,
-    });
+function googleFacebookCallback(req, res) {
+  if (req.err) {
+    return res.status(500).json(req.err);
   }
+
+  res.setHeader('Access-Token', req.user.token);
+
+  return res.status(200).json({
+    _id: req.user._id,
+    name: req.user.name,
+    surName: req.user.surName,
+    email: req.user.email,
+    role: req.user.role,
+  });
+}
+
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  googleFacebookCallback
 );
 
 router.get(
-  "/facebook",
-  passport.authenticate("facebook", { scope: ["email"] })
+  '/facebook',
+  passport.authenticate('facebook', { scope: ['email'] })
 );
 
 router.get(
   `/facebook/callback`,
-  passport.authenticate("facebook", {
-    failureRedirect: "/",
+  passport.authenticate('facebook', {
+    failureRedirect: '/',
   }),
-  (req, res) => {
-    if (req.err) {
-      return res.status(500).json(err);
-    }
-
-    res.setHeader("Access-Token", req.user.token);
-
-    res.status(200).json({
-      _id: req.user._id,
-      name: req.user.name,
-      surName: req.user.surName,
-      email: req.user.email,
-      role: req.user.role,
-    });
-  }
+  googleFacebookCallback
 );
 
 module.exports = router;

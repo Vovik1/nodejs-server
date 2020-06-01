@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const Lecture = mongoose.model('Lecture');
 const User = mongoose.model('User');
 
@@ -14,6 +15,8 @@ async function getAll(req, res) {
         defaultRating: doc.defaultRating,
         videoUrl: doc.videoUrl,
         description: doc.description,
+        categoryId: doc.categoryId,
+        categoryTitle: doc.categoryTitle,
       };
     });
     res.status(200).json(lectures);
@@ -34,6 +37,8 @@ async function getLecturesByCategory(req, res) {
         defaultRating: doc.defaultRating,
         videoUrl: doc.videoUrl,
         description: doc.description,
+        categoryId: doc.categoryId,
+        categoryTitle: doc.categoryTitle,
       };
     });
     res.status(200).json(lectures);
@@ -161,7 +166,8 @@ function lectureUpdate(req, res) {
   Lecture.findById(req.params.lectureid).exec((err, lecture) => {
     if (!lecture) {
       return res.json(404).status({ message: 'lectureid not found' });
-    } else if (err) {
+    }
+    if (err) {
       return res.status(400).json(err);
     }
     Object.assign(lecture, req.body);
@@ -196,7 +202,6 @@ module.exports = {
   userDeleteFavourites,
   getOne,
   getUserFavouriteLectures,
-  getOne,
   lectureCreate,
   lectureUpdate,
   lectureRemove,

@@ -14,14 +14,14 @@ const s3 = new AWS.S3({
 function selectMulterConfig(fieldname) {
   const multerConfig = multer({
     storage: multerS3({
-      s3: s3,
+      s3,
       bucket: process.env.AWS_BUCKET,
       acl: 'public-read',
-      key: function (req, file, cb) {
+      key(req, file, cb) {
         cb(null, file.originalname);
       },
     }),
-    fileFilter: function (req, file, cb) {
+    fileFilter(req, file, cb) {
       checkFileType(file, cb);
     },
   }).single(fieldname); // 'avatarImage','lectureVideo'
@@ -35,15 +35,14 @@ function checkFileType(file, cb) {
   const mimetype = filetypes.test(file.mimetype);
   if (mimetype && extname) {
     return cb(null, true);
-  } else {
-    cb('Error: Video or images only!');
   }
+  cb('Error: Video or images only!');
 }
 
 const uploadAvatar = (req, res) => {
   selectMulterConfig('avatarImage')(req, res, async (error) => {
     if (error) {
-      return res.status(422).json({ error: error });
+      return res.status(422).json({ error });
     }
     if (req.file === undefined) {
       res.json('Error: No File Selected');
@@ -71,7 +70,7 @@ const uploadAvatar = (req, res) => {
 const uploadVideo = (req, res) => {
   selectMulterConfig('lectureVideo')(req, res, async (error) => {
     if (error) {
-      return res.status(422).json({ error: error });
+      return res.status(422).json({ error });
     }
     if (req.file === undefined) {
       res.json('Error: No File Selected');
