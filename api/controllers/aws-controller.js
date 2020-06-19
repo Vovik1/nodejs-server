@@ -82,23 +82,4 @@ const uploadVideo = (req, res) => {
   });
 };
 
-const deleteFile = (req, res) => {
-  if (!req.body.file) {
-    res.json('Error: No File Selected');
-  }
-  const keyFile = req.body.file;
-  const params = {
-    Bucket: process.env.AWS_BUCKET,
-    Key: keyFile,
-  };
-
-  s3.deleteObject(params, (err, data) => {
-    if (data) {
-      res.status(204).json(null);
-    } else {
-      res.status(422).json(err);
-    }
-  });
-};
-
-module.exports = { uploadAvatar, uploadVideo, deleteFile };
+module.exports = { uploadAvatar, uploadVideo };

@@ -159,17 +159,21 @@ function lectureUpdate(req, res) {
   });
 }
 
-function lectureRemove(req, res) {
+function lectureRemove(req, res, next) {
   const { lectureid } = req.params;
   if (lectureid) {
-    Lecture.findByIdAndRemove(lectureid).exec((err) => {
+    Lecture.findByIdAndRemove(lectureid).exec((err, lecture) => {
       if (err) {
         return res.status(404).json(err);
       }
-      res.status(200).json({ message: 'Lecture successfully deleted' });
+      if (lecture.videoUrl.includes(process.env.AWS_BUCKET)) {
+        req.videoUrl = lecture.videoUrl;
+        return next();
+      }
+      res.status(204).json(null);
     });
   } else {
-    res.status(404).json({ message: 'No Location' });
+    res.status(404).json({ message: 'No Lecture' });
   }
 }
 

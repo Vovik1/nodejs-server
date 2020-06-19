@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = new express.Router();
 const authCheck = require('../middleware/auth-check');
+const awsDeleteFile = require('../middleware/delete-aws-file');
 
 const lectureController = require('../controllers/lecture-controller');
 const messagesController = require('../controllers/messages-controller');
@@ -19,7 +20,7 @@ router
   .route('/:lectureid')
   .get(authCheck, lectureController.getOne)
   .put(authCheck, lectureController.lectureUpdate)
-  .delete(lectureController.lectureRemove);
+  .delete(authCheck, lectureController.lectureRemove, awsDeleteFile);
 
 router
   .route('/:lectureid/fav_lectures')
