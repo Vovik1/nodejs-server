@@ -32,6 +32,7 @@ const lectureSchema = new mongoose.Schema({
     ref: 'User',
   },
   categoryId: { type: mongoose.Schema.Types.ObjectId },
+  categoryTitle: String,
 });
 
 mongoose.model('Lecture', lectureSchema);

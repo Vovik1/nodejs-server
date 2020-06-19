@@ -14,6 +14,7 @@ const doAddMessage = (req, res, lecture) => {
       messageText,
       imageUrl,
     });
+
     lecture.save((err, lecture) => {
       if (err) {
         res.status(400).json(err);
