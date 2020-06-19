@@ -10,6 +10,7 @@ const awsController = require('../controllers/aws-controller');
 const categoryController = require('../controllers/category-controller');
 const reviewController = require('../controllers/review-controller');
 const userController = require('../controllers/user-controller');
+const usersRouter = require('./users-router');
 
 // reviews
 router.route('/reviews').get(reviewController.getReviews);
@@ -29,6 +30,7 @@ router
 router.route('/users/all').get(userController.getAllUsers);
 
 router.use('/lectures', lectureRouter);
+router.use('/users', usersRouter);
 router.use('/user', userRouter);
 router.use('/edit', editUserRouter);
 
