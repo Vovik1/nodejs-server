@@ -21,10 +21,7 @@ router.route('/categories/all').get(categoryController.getAllCategories);
 // aws-s3
 router.route('/aws/upload-avatar').post(authCheck, awsController.uploadAvatar);
 
-router
-  .route('/aws/upload-video')
-  .post(authCheck, awsController.uploadVideo)
-  .delete(authCheck, awsController.deleteFile);
+router.route('/aws/upload-video').post(authCheck, awsController.uploadVideo);
 
 // users
 router.route('/users/all').get(userController.getAllUsers);
