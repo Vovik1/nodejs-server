@@ -1,32 +1,42 @@
 const express = require('express');
+
 const router = new express.Router();
 const authCheck = require('../middleware/auth-check');
 
 const lectureController = require('../controllers/lecture-controller');
 const messagesController = require('../controllers/messages-controller');
 
-//lectures
+// lectures
+router.route('/').post(authCheck, lectureController.lectureCreate);
+
 router
-    .route('/')
-    .get(authCheck, lectureController.getAllUsersLectures)
-    .post(authCheck, lectureController.create);
-    
+  .route('/by_user')
+  .get(authCheck, lectureController.getUserFavouriteLectures);
+
+router.route('/all').get(lectureController.getAll);
+
 router
-    .route('/all')
-    .get(lectureController.getAll)
+  .route('/:lectureid')
+  .get(authCheck, lectureController.getOne)
+  .put(authCheck, lectureController.lectureUpdate)
+  .delete(lectureController.lectureRemove);
+
+router
+  .route('/:lectureid/fav_lectures')
+  .put(authCheck, lectureController.userAddFavourites)
+  .delete(authCheck, lectureController.userDeleteFavourites);
+
+router
+  .route('/user/favourite')
+  .get(authCheck, lectureController.getUserFavouriteLectures);
+
+router
+  .route('/bycategory/:categoryid')
+  .get(authCheck, lectureController.getLecturesByCategory);
 
 // router
-//     .route('/:categoryid')
-//     .get(lectureController.getLecturesByCategory);
-
-
-
-
-router
-    .route('/:lectureid')
-    .get(authCheck, lectureController.getOne)    
-    .put(authCheck, lectureController.update)
-    .delete(authCheck, lectureController.remove);
+//     .route('/bycategory/:categoryid')
+//     .get(authCheck, lectureController.getLecturesByCategory)
 
 // messages
 router
