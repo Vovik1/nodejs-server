@@ -13,6 +13,10 @@ const messageSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  imageUrl: {
+    type: mongoose.Schema.Types.String,
+    ref: 'User'
+  }
 });
 
 const lectureSchema = new mongoose.Schema({

@@ -37,7 +37,7 @@ function setPassword(password) {
 
 function generateToken() {
   const expiry = new Date();
-  expiry.setDate(expiry.getHours() + 1);
+  expiry.setDate(expiry.getDate() + 1);
 
   return jwt.sign(
     {

@@ -29,11 +29,11 @@ async function removeUser(req, res) {
     res.status(401).json({ message: 'Only for admin' });
   }
   try {
-    await User.findOneAndRemove({ _id: req.params.id }, (err, doc) => {
+    await User.findOneAndRemove({ _id: req.params.id }, (err) => {
       if (err) {
         res.send({ message: 'Delete failed' });
       } else {
-        res.send({ message: 'Deleted', id: doc._id });
+        res.send({ message: 'Deleted', id: req.params.id });
       }
     });
   } catch (err) {

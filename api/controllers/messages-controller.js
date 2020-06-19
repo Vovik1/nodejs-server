@@ -7,13 +7,13 @@ const doAddMessage = (req, res, lecture) => {
     res.status(404).json({ message: 'Lecture not found' });
   } else {
     const { name } = req.userData;
-    const { rating, messageText } = req.body;
+    const { rating, messageText, imageUrl } = req.body;
     lecture.messages.push({
       author: name,
       rating,
       messageText,
+      imageUrl,
     });
-
     lecture.save((err, lecture) => {
       if (err) {
         res.status(400).json(err);

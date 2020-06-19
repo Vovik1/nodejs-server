@@ -56,4 +56,44 @@ const signIn = (req, res) => {
   return null;
 };
 
-module.exports = { signUp, signIn };
+const googleFacebookSignIn = async (req, res) => {
+  const {
+    body: { email, name, surName, imageUrl },
+  } = req;
+  if (!email || !name || !surName || !imageUrl)
+    return res.status(422).json({ message: 'You have missed some fields' });
+  try {
+    const userExist = await User.findOne({ email: req.body.email });
+    if (userExist) {
+      res.setHeader('Access-Token', userExist.generateJwt());
+      return res.status(200).json({
+        _id: userExist._id,
+        name: userExist.name,
+        email: userExist.email,
+        surName: userExist.surName,
+        role: userExist.role,
+        imageUrl: userExist.imageUrl,
+      });
+    }
+    const user = new User();
+    user.email = email;
+    user.name = name;
+    user.role = 'student';
+    user.surName = surName;
+    user.imageUrl = imageUrl;
+    const response = await user.save();
+    res.setHeader('Access-Token', user.generateJwt());
+    return res.status(201).json({
+      _id: response._id,
+      name: response.name,
+      surName: response.surName,
+      email: response.email,
+      role: response.role,
+      imageUrl: response.imageUrl,
+    });
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+
+module.exports = { signUp, signIn, googleFacebookSignIn };
