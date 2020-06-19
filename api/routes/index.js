@@ -4,13 +4,13 @@ const router = new express.Router();
 const authCheck = require('../middleware/auth-check');
 const lectureRouter = require('./lecture-router');
 const userRouter = require('./user-router');
-const usersRouter = require('./users-router');
 const editUserRouter = require('./edit-user-router');
 
 const awsController = require('../controllers/aws-controller');
 const categoryController = require('../controllers/category-controller');
 const reviewController = require('../controllers/review-controller');
 const userController = require('../controllers/user-controller');
+const usersRouter = require('./users-router');
 
 // reviews
 router.route('/reviews').get(reviewController.getReviews);

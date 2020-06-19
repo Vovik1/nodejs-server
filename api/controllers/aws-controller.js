@@ -82,4 +82,4 @@ const uploadVideo = (req, res) => {
   });
 };
 
-module.exports = { uploadAvatar, uploadVideo };
+module.exports = { uploadAvatar, uploadVideo, s3 };

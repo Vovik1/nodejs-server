@@ -35,10 +35,6 @@ router
   .route('/bycategory/:categoryid')
   .get(authCheck, lectureController.getLecturesByCategory);
 
-// router
-//     .route('/bycategory/:categoryid')
-//     .get(authCheck, lectureController.getLecturesByCategory)
-
 // messages
 router
   .route('/:lectureid/messages')

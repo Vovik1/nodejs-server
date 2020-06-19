@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const awsController = require('./aws-controller');
 
 const User = mongoose.model('User');
 
@@ -98,4 +99,21 @@ const updatePassword = async (req, res) => {
   }
 };
 
-module.exports = { updateName, updateEmail, updatePassword };
+const deleteAvatar = async (req, res) => {
+  const user = await User.findOneAndUpdate({ _id: req.userData._id }, { imageUrl: null });
+  const avatarId = user.imageUrl.split('/').splice(-1)[0];
+  const params = {
+    Bucket: process.env.AWS_BUCKET,
+    Key: avatarId,
+  };
+
+  awsController.s3.deleteObject(params, (err, data) => {
+    if (data) {
+      res.status(204).json(null);
+    } else {
+      res.status(422).json(err);
+    }
+  });
+};
+
+module.exports = { updateName, updateEmail, updatePassword, deleteAvatar };
