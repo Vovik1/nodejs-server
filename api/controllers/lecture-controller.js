@@ -91,7 +91,7 @@ function getUserFavouriteLectures(req, res) {
         return res.status(404).json(err);
       }
       favouriteLectures = user.favouriteLectures;
-      res.json({ favouriteLectures });
+      return res.json({ favouriteLectures });
     });
 }
 
@@ -111,9 +111,9 @@ async function getOne(req, res) {
       description: doc.description,
       messages: doc.messages,
     };
-    res.status(200).json(post);
+    return res.status(200).json(post);
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 }
 
@@ -141,20 +141,19 @@ function lectureUpdate(req, res) {
       .status(404)
       .json({ message: 'Not found, lectureid is required' });
   }
-  Lecture.findById(req.params.lectureid).exec((err, lecture) => {
-    if (!lecture) {
+  Lecture.findById(req.params.lectureid).exec((err, lec) => {
+    if (!lec) {
       return res.json(404).status({ message: 'lectureid not found' });
     }
     if (err) {
       return res.status(400).json(err);
     }
-    Object.assign(lecture, req.body);
-    lecture.save((error, lec) => {
-      if (err) {
-        res.status(404).json(error);
-      } else {
-        res.status(200).json(lec);
+    Object.assign(lec, req.body);
+    lec.save((error, lecture) => {
+      if (error) {
+        return res.status(404).json(err);
       }
+      return res.status(200).json(lecture);
     });
   });
 }
