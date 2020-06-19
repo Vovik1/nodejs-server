@@ -103,4 +103,4 @@ const deleteFile = (req, res) => {
   });
 };
 
-module.exports = { uploadAvatar, uploadVideo, deleteFile };
+module.exports = { uploadAvatar, uploadVideo, deleteFile, s3 };

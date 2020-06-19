@@ -25,20 +25,20 @@ async function getAllUsers(req, res) {
 }
 
 async function removeUser(req, res) {
-  if (req.userData.role !== 'admin') {
-    res.status(401).json({ message: 'Only for admin' });
+  if (req.userData.role === 'admin' || req.userData._id === req.params.id) {
+    try {
+      await User.findOneAndRemove({ _id: req.params.id }, (err) => {
+        if (err) {
+          res.send({ message: 'Delete failed' });
+        } else {
+          res.send({ message: 'Deleted', id: req.params.id });
+        }
+      });
+    } catch (err) {
+      await res.json(err);
+    }
   }
-  try {
-    await User.findOneAndRemove({ _id: req.params.id }, (err) => {
-      if (err) {
-        res.send({ message: 'Delete failed' });
-      } else {
-        res.send({ message: 'Deleted', id: req.params.id });
-      }
-    });
-  } catch (err) {
-    await res.json(err);
-  }
+  res.status(403).json({ message: 'You dont have permissions' });
 }
 
 async function updateUser(req, res) {
