@@ -31,7 +31,7 @@ async function removeUser(req, res) {
         if (err) {
           return res.send({ message: 'Delete failed' });
         } else {
-          return  res.send({ message: 'Deleted', id: req.params.id });
+          return res.send({ message: 'Deleted', id: req.params.id });
         }
       });
     } catch (err) {
@@ -55,8 +55,8 @@ async function updateUser(req, res) {
         const userExist = await User.findOne({ email: req.body.user.email });
         if (userExist) {
           return res
-              .status(422)
-              .json({ email: 'User with this email is already exist' });
+            .status(422)
+            .json({ email: 'User with this email is already exist' });
         } else {
           return res.send({ message: 'Update failed' });
         }
@@ -80,8 +80,8 @@ async function addUser(req, res) {
   const userExist = await User.findOne({ email: req.body.user.email });
   if (userExist) {
     return res
-        .status(422)
-        .json({ email: 'User with this email is already exist' });
+      .status(422)
+      .json({ email: 'User with this email is already exist' });
   }
 
   if (req.userData.role !== 'admin') {

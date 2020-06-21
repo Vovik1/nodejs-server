@@ -15,8 +15,8 @@ const messageSchema = new mongoose.Schema({
   },
   imageUrl: {
     type: mongoose.Schema.Types.String,
-    ref: 'User'
-  }
+    ref: 'User',
+  },
 });
 
 const lectureSchema = new mongoose.Schema({
@@ -24,7 +24,7 @@ const lectureSchema = new mongoose.Schema({
   author: String,
   title: { type: String, required: true },
   defaultRating: String,
-  videoUrl: String,
+  videoUrl: { type: String, required: true },
   description: { type: String, required: true },
   messages: [messageSchema],
   owner: {

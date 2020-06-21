@@ -7,7 +7,12 @@
     "start": "node server.js",
     "start_local": "nodemon -r dotenv/config server.js",
     "lint": "eslint '**/*.js' --ignore-pattern node_modules/",
-    "test": "mocha"
+    "test": "mocha -r dotenv/config --timeout 4000 --exit"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm test"
+    }
   },
   "keywords": [],
   "author": "",
@@ -36,6 +41,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
@@ -50,6 +56,7 @@
     "husky": "^4.2.5",
     "mocha": "^8.0.1",
     "nodemon": "^2.0.2",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "supertest": "^4.0.2"
   }
 }

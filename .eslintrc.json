@@ -18,6 +18,11 @@
     "prettier/prettier": "error",
     "no-unused-vars": "warn",
     "no-underscore-dangle": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "no-undef": "off",
+    "no-param-reassign": ["error", { "props": false }],
+    "node/no-unpublished-require": "off",
+    "no-else-return": "off",
+    "no-console": "off"
   }
 }

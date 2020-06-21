@@ -121,7 +121,7 @@ async function lectureCreate(req, res) {
   try {
     const newLecture = new Lecture({
       title: req.body.title,
-      author: req.author,
+      author: req.body.author,
       imgUrl: req.body.imgUrl,
       videoUrl: req.body.videoUrl,
       description: req.body.description,

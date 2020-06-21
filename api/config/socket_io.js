@@ -3,7 +3,7 @@ const app = require('../../app');
 const webinarController = require('../controllers/webinars-controller');
 
 const init = (server) => {
-  const io = socketIo(server, {allowUpgrades: true});
+  const io = socketIo(server, { allowUpgrades: true });
 
   io.on('connection', (socket) => {
     socket.on('join_room', (roomId) => {
@@ -17,7 +17,7 @@ const init = (server) => {
     webinarController(socket);
     socket.on('disconect', () => {
       socket.disconnect(true);
-    })
+    });
   });
 
   app.io = io;

@@ -15,12 +15,12 @@ const doAddMessage = (req, res, lecture) => {
       imageUrl,
     });
 
-    lecture.save((err, lecture) => {
+    lecture.save((err, lec) => {
       if (err) {
         res.status(400).json(err);
       } else {
-        const thisMessage = lecture.messages.slice(-1).pop();
-        req.app.io.to(lecture.id).emit('send_message', thisMessage);
+        const thisMessage = lec.messages.slice(-1).pop();
+        req.app.io.to(lec.id).emit('send_message', thisMessage);
         res.status(201).json(thisMessage);
       }
     });
