@@ -126,6 +126,7 @@ describe('/DELETE/:id lecture', () => {
       .set('Access-Token', auth.token)
       .expect(204)
       .end((err, res) => {
+        if (err) throw err;
         // res.body.should.be.a('object');
         done();
       });
