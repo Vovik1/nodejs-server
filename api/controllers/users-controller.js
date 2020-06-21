@@ -29,16 +29,17 @@ async function removeUser(req, res) {
     try {
       await User.findOneAndRemove({ _id: req.params.id }, (err) => {
         if (err) {
-          res.send({ message: 'Delete failed' });
+          return res.send({ message: 'Delete failed' });
         } else {
-          res.send({ message: 'Deleted', id: req.params.id });
+          return  res.send({ message: 'Deleted', id: req.params.id });
         }
       });
     } catch (err) {
       await res.json(err);
     }
+  } else {
+    return res.status(403).json({ message: 'You dont have permissions' });
   }
-  res.status(403).json({ message: 'You dont have permissions' });
 }
 
 async function updateUser(req, res) {
@@ -49,9 +50,16 @@ async function updateUser(req, res) {
     { _id: req.params.id },
     req.body.user,
     { new: true },
-    (err, doc) => {
+    async (err, doc) => {
       if (err) {
-        res.send({ message: 'Update failed' });
+        const userExist = await User.findOne({ email: req.body.user.email });
+        if (userExist) {
+          return res
+              .status(422)
+              .json({ email: 'User with this email is already exist' });
+        } else {
+          return res.send({ message: 'Update failed' });
+        }
       } else {
         res.send({
           message: 'Updated',
@@ -69,6 +77,13 @@ async function updateUser(req, res) {
 }
 
 async function addUser(req, res) {
+  const userExist = await User.findOne({ email: req.body.user.email });
+  if (userExist) {
+    return res
+        .status(422)
+        .json({ email: 'User with this email is already exist' });
+  }
+
   if (req.userData.role !== 'admin') {
     res.status(401).json({ message: 'Only for admin' });
   }
