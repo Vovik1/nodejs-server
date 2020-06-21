@@ -51,7 +51,7 @@ const signIn = (req, res) => {
         imageUrl: user.imageUrl,
       });
     }
-    return res.status(401).json(info);
+    return res.status(401).json({password: 'Email or password is invalid'});
   })(req, res);
   return null;
 };
