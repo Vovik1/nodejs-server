@@ -169,7 +169,7 @@ function lectureRemove(req, res, next) {
         req.videoUrl = lecture.videoUrl;
         return next();
       }
-      res.status(200).json({ message: 'Deleted successfully' });
+      res.status(204).json(null);
     });
   } else {
     res.status(404).json({ message: 'No Lecture' });
