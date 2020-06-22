@@ -124,10 +124,10 @@ describe('/DELETE/:id lecture', () => {
     request(server)
       .delete(`/api/lectures/${lectureId}`)
       .set('Access-Token', auth.token)
-      .expect(204)
+      .expect(200)
       .end((err, res) => {
         if (err) throw err;
-        // res.body.should.be.a('object');
+        res.body.should.be.a('object');
         done();
       });
   });
