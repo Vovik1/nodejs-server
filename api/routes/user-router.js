@@ -7,7 +7,7 @@ const authController = require('../controllers/auth-controller');
 
 router.post('/signup', authController.signUp);
 router.post('/signin', authController.signIn);
-router.post('/googlefacebook', authController.googleFacebookSignIn)
+router.post('/googlefacebook', authController.googleFacebookSignIn);
 
 router.get(
   '/google',

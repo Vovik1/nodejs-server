@@ -100,7 +100,10 @@ const updatePassword = async (req, res) => {
 };
 
 const deleteAvatar = async (req, res) => {
-  const user = await User.findOneAndUpdate({ _id: req.userData._id }, { imageUrl: null });
+  const user = await User.findOneAndUpdate(
+    { _id: req.userData._id },
+    { imageUrl: null }
+  );
   const avatarId = user.imageUrl.split('/').splice(-1)[0];
   const params = {
     Bucket: process.env.AWS_BUCKET,
