@@ -38,7 +38,7 @@ const signUp = async (req, res) => {
 const signIn = (req, res) => {
   if (!req.body.email || !req.body.password)
     return res.status(422).json({ message: 'email and password are required' });
-  passport.authenticate('local', (err, user, info) => {
+  passport.authenticate('local', (err, user) => {
     if (err) return res.status(500).json(err);
     if (user) {
       res.setHeader('Access-Token', user.generateJwt());
@@ -51,7 +51,7 @@ const signIn = (req, res) => {
         imageUrl: user.imageUrl,
       });
     }
-    return res.status(401).json({password: 'Email or password is invalid'});
+    return res.status(401).json({ password: 'Email or password is invalid' });
   })(req, res);
   return null;
 };
